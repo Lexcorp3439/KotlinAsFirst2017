@@ -138,11 +138,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
 if (a!=b && c!=d) {
     when {
-        c in a..b && d>b -> return b-c
-        c in a..b && d<b -> return d-c
+        c in a..b && d>=b -> return b-c
+        c in a..b && d<=b -> return d-c
         c>b -> return -1
-        a in c..d && b>d -> return d-a
-        a in c..d && b<d -> return b-a
+        a in c..d && b>=d -> return d-a
+        a in c..d && b<=d -> return b-a
         else -> -1
     }
 }
