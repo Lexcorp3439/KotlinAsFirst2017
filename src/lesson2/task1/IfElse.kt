@@ -110,7 +110,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if ( (sqr(a)==sqr(b)+ sqr(c)) || (sqr(b)==sqr(a)+ sqr(c)) || (sqr(c)==sqr(b)+ sqr(c)) ) return 1 else
-        if ( (a==b && b==c) || (a==b && b>c) || (a==c && b>c) || (c==b && b>a) ) return 0 else
+        if ( (a==b && b==c) || (a==b && b>c) || (a==c && c>b) || (c==b && b>a) ) return 0 else
           if(a!=b && b!=c && a!=c){
           if (a>b && a>c) {return if (c+b<a) -1 else if ((sqr(b)+sqr(c)-sqr(a))/2*b*c<0) 2 else 0} else
           if (c>b && c>a) {return if (b+a<c) -1 else if ((sqr(b)+sqr(a)-sqr(c))/2*b*a<0) 2 else 0} else
