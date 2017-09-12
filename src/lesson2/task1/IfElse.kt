@@ -123,7 +123,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         (a==b && b<c && a+b>c && (sqr(b)+sqr(a)-sqr(c))/2*b*a>0) -> 0
         (c==b && b<a && c+b>a && (sqr(b)+sqr(c)-sqr(a))/2*b*c>0) -> 0
         (a==c && c<b && a+c>b && (sqr(a)+sqr(c)-sqr(b))/2*a*c>0) -> 0
-        (a==b && b<c && a+b<c) -> -1
+        (a==b && b<c && a+b<c)-> -1
         (c==b && b<a && c+b<a) -> -1
         (a==c && c<b && a+c<b) -> -1
         else -> -1
