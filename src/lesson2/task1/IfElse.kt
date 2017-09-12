@@ -148,13 +148,15 @@ if (a!=b && c!=d) {
 }
 return if (a==b && c!=d) {
     when{
-        (a in c..d)-> d-a
+        (a in (c+1)..(d-1))-> 1
+        (a==c || a==d)-> 0
         else -> -1
     }
 } else
     if (a!=b && c==d){
         when{
-            (c in a ..(b))-> b-c
+            (c in (a+1) ..(b-1))-> 1
+            (c==a || c==b) ->0
             else -> -1
         }
     } else when (a) {
