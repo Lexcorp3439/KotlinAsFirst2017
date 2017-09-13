@@ -3,6 +3,7 @@ package lesson2.task2
 
 
 import lesson1.task1.sqr
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -41,7 +42,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    return if (r1<r2) {
+        x1+r1<=x2+r2 && x1-r1>=x2-r2 && y1+r1<=y2+r2 && y1-r1>=y2-r2 && r1<=r2-sqrt(sqr(x1-x2)+sqr(y1-y2))
+    } else x1+r1>=x2+r2 && x1-r1<=x2-r2 && y1+r1>=y2+r2 && y1-r1<=y2-r2 && r2<=r1-sqrt(sqr(x1-x2)+sqr(y1-y2))
+}
 
 /**
  * Средняя
@@ -54,10 +59,13 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     return if (a*b!=r*s && b*c!=r*s && a*c!=r*s) false else
-        when (a*b==r*s || b*c==r*s || a*c==r*s){
+        when (a*b<=r*s || b*c<=r*s || a*c<=r*s){
             (a*b==r*s && ( (a==r && b==s) || (b==r && a==s) ) ) -> true
             (b*c==r*s && ( (c==r && b==s) || (b==r && c==s) ) ) -> true
             (a*c==r*s && ( (a==r && c==s) || (c==r && a==s) ) ) -> true
+            (a*b<=r*s && ((a<r && b<s) || (b<r && a<s)) ) -> true
+            (b*c<=r*s && ((b<r && c<s) || (c<r && b<s)) ) -> true
+            (a*c<=r*s && ((a<r && c<s) || (c<r && a<s)) ) -> true
             else -> false
         }
 }
