@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson2.task2
 
+
 import lesson1.task1.sqr
 
 /**
@@ -17,7 +18,11 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+    val x1 = number % 100
+    val x2 = number / 100
+    return x1 % 10 + x1 / 10 == x2 % 10 + x2 / 10
+}
 
 /**
  * Простая
