@@ -1,8 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
-import java.lang.Math.pow
-import java.lang.Math.sqrt
+import java.lang.Math.*
 
 /**
  * Пример
@@ -67,7 +66,7 @@ fun digitNumber(n: Int): Int {
     var x = n
     var result = 0
     if (n==0) return 1 else
-    while (x>0) {x/=10 ; result +=1}
+    while (abs(x)>0) {x/=10 ; result +=1}
     return result
 }
 
@@ -139,7 +138,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var  bool = false
-    for (i in 1..sqrt(n.toDouble()).toInt()) if (i*i in m..n) bool = true
+    for (i in 0..sqrt(n.toDouble()).toInt()) if (i*i in m..n) bool = true
     return bool
 }
 
@@ -170,7 +169,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var new= 0
     var n1:Int = n
-    var all = -1
+    var all = 0
     var allrever = 1
 
     while (n1>0) {
@@ -180,7 +179,7 @@ fun revert(n: Int): Int {
     n1 =n
     while (all>0) {
         new += (n1/ pow(10.0,all.toDouble()).toInt())*allrever
-        n1 %= pow(10.0, all.toDouble()).toInt()
+        n1 %= pow(10.0, all.toDouble()-1).toInt()
         all-=1
         allrever*=10
     }
