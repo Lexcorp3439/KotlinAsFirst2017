@@ -211,7 +211,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int {
+fun squareSequenceDigit(n: Int): Int = TODO() /*{
 
     var k:Int = 1 //счетчик
     var dig:Int = 0   // число в квадрате
@@ -232,7 +232,7 @@ fun squareSequenceDigit(n: Int): Int {
         k+=1
     }
     return num
-}
+}*/
 
 /**
  * Сложная
