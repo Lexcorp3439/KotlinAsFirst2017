@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import java.lang.Math.pow
+import java.lang.Math.sqrt
+
 /**
  * Пример
  *
@@ -60,7 +63,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var x = n
+    var result = 0
+    if (n==0) return 1 else
+    while (x>0) {x/=10 ; result +=1}
+    return result
+}
 
 /**
  * Простая
@@ -68,7 +77,7 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int = if (n>2)  fib(n-1)+ fib (n-2)  else 1
 
 /**
  * Простая
@@ -76,21 +85,37 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var nod=0
+    for (k in 1.. n * m) {
+        if (k % m == 0 && k % n == 0){ nod=k; break}
+    }
+    return nod
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var num:Int = 0
+    for (i in 2..n)
+      if (n % i == 0) { num = i ; break}
+    return num
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var num:Int = 0
+    for (i in n-1 downTo 1)
+        if (n % i == 0) { num = i ; break}
+    return num
+}
 
 /**
  * Простая
@@ -99,7 +124,11 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var bool = true
+    for (i in 2..m) {if (m % i ==0 && n % i == 0) bool= false}
+    return bool
+}
 
 /**
  * Простая
@@ -108,7 +137,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var  bool = false
+    for (i in 1..sqrt(n.toDouble()).toInt()) if (i*i in m..n) bool = true
+    return bool
+}
 
 /**
  * Средняя
@@ -134,7 +167,25 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var new:Int = 0
+    var n1:Int = n
+    var all = -1
+    var allrever = 1
+
+    while (n1>0) {
+        n1 /= 10
+        all+=1
+    }
+    n1 =n
+    while (all>0) {
+        new += (n1/ pow(10.0,all.toDouble()).toInt())*allrever
+        n1 %= pow(10.0, all.toDouble()).toInt()
+        all-=1
+        allrever*=10
+    }
+    return new
+}
 
 /**
  * Средняя
@@ -160,7 +211,28 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+
+    var k:Int = 1 //счетчик
+    var dig:Int = 0   // число в квадрате
+    var num = 0    // номер числа
+    var all:Int = 0   //чисел в числе
+    var ret = 0.0 //число, которое нужно вывести
+
+    while (num<n) {
+        dig = k*k
+        while (dig>0) {dig / 10 ; all+=1}
+        dig = k*k
+        for (j in all downTo 1) {
+            ret = dig / pow(10.0 , j.toDouble() - 1)
+            num+=1
+            if (num==n) break
+        }
+        all=0
+        k+=1
+    }
+    return num
+}
 
 /**
  * Сложная
