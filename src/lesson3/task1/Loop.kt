@@ -99,7 +99,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var num:Int = 0
+    var num = 0
     for (i in 2..n)
       if (n % i == 0) { num = i ; break}
     return num
@@ -111,7 +111,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var num:Int = 0
+    var num = 0
     for (i in n-1 downTo 1)
         if (n % i == 0) { num = i ; break}
     return num
@@ -168,7 +168,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var new:Int = 0
+    var new= 0
     var n1:Int = n
     var all = -1
     var allrever = 1
