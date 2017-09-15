@@ -169,7 +169,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var new= 0
     var n1:Int = n
-    var all = 0
+    var all = -1
     var allrever = 1
 
     while (n1>0) {
@@ -179,7 +179,7 @@ fun revert(n: Int): Int {
     n1 =n
     while (all>0) {
         new += (n1/ pow(10.0,all.toDouble()).toInt())*allrever
-        n1 %= pow(10.0, all.toDouble()-1).toInt()
+        n1 %= pow(10.0, all.toDouble()).toInt()
         all-=1
         allrever*=10
     }
@@ -193,7 +193,30 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var n1:Int = n
+    var all = 0
+
+    var ten = 1
+    var bool = false
+
+    if (n<10) bool = true
+    else {
+        while (n1 > 0) {
+            n1 /= 10
+            all += 1
+        }
+        val num= all
+        all /= 2
+        for (i in 1..all) ten *= 10
+        if (num % 2 == 0) {
+            if ((n1 % ten).toString().reversed().toInt() == n1 / ten) bool = true
+        } else {
+            if ((n1 % ten).toString().reversed().toInt() == n1 / (ten * 10)) bool = true
+        }
+    }
+    return bool
+}
 
 /**
  * Средняя
@@ -201,7 +224,23 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var n1:Int = n
+    var all = 0
+    val charN:String = n.toString()
+    var bool = true
+
+    while (n1 > 0) {
+        n1 /= 10
+        all += 1
+    }
+    //n1=n
+    for (i in 1..all)
+        for (j in i..all)
+        /*if ( (n1%pow(10.0,i.toDouble()) )/pow(10.0,i-1.toDouble())==(n1%pow(10.0,j.toDouble()) )/pow(10.0,j-1.toDouble()) ) {bool = false ; break}*/
+        if (charN[i]==charN[j]) {bool = false ; break}
+    return bool
+}
 
 /**
  * Сложная
