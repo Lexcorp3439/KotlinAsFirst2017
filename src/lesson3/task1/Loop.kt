@@ -177,7 +177,7 @@ fun revert(n: Int): Int {
         all+=1
     }
     n1 =n
-    while (all>0) {
+    while (all>=0) {
         new += (n1/ pow(10.0,all.toDouble()).toInt())*allrever
         n1 %= pow(10.0, all.toDouble()).toInt()
         all-=1
@@ -198,9 +198,9 @@ fun isPalindrome(n: Int): Boolean {
     var all = 0
 
     var ten = 1
-    var bool = false
+    val bool:Boolean
 
-    if (n<10) bool = true
+    if (abs(n)<10) bool = true
     else {
         while (n1 > 0) {
             n1 /= 10
@@ -208,11 +208,12 @@ fun isPalindrome(n: Int): Boolean {
         }
         val num= all
         all /= 2
+        n1=n
         for (i in 1..all) ten *= 10
-        if (num % 2 == 0) {
-            if ((n1 % ten).toString().reversed().toInt() == n1 / ten) bool = true
+        bool = if (num % 2 == 0) {
+            (n1 % ten).toString().reversed().toInt() == n1 / ten
         } else {
-            if ((n1 % ten).toString().reversed().toInt() == n1 / (ten * 10)) bool = true
+            (n1 % ten).toString().reversed().toInt() == n1 / (ten * 10)
         }
     }
     return bool
@@ -227,18 +228,25 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     var n1:Int = n
     var all = 0
-    val charN:String = n.toString()
-    var bool = true
+    //val charN:String = n.toString()
+    var bool = false
 
-    while (n1 > 0) {
-        n1 /= 10
-        all += 1
+    if (n<10) bool = false
+    else {if (n%(n%10)==0) bool=false
+        else {
+        while (n1 > 0) {
+            n1 /= 10
+            all += 1
+        }
+        n1 = n
+        for (i in 1..all)
+            for (j in (i + 1)..all) {
+                if ((n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble()) != (n1 % pow(10.0, j.toDouble())) / pow(10.0, (j - 1).toDouble())) {
+                    bool = true; break
+                }
+            }
     }
-    //n1=n
-    for (i in 1..all)
-        for (j in i..all)
-        /*if ( (n1%pow(10.0,i.toDouble()) )/pow(10.0,i-1.toDouble())==(n1%pow(10.0,j.toDouble()) )/pow(10.0,j-1.toDouble()) ) {bool = false ; break}*/
-        if (charN[i]==charN[j]) {bool = false ; break}
+    }/*if (charN[i]==charN[j]) {bool = false ; break}*/
     return bool
 }
 
