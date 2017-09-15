@@ -211,9 +211,9 @@ fun isPalindrome(n: Int): Boolean {
         n1=n
         for (i in 1..all) ten *= 10
         bool = if (num % 2 == 0) {
-            (n1 % ten).toString().reversed() == (n1 / ten).toString()
+            (n1 / ten) == (n1.toString().reversed().toInt()/ten)
         } else {
-            (n1 % ten).toString().reversed() == (n1 / (ten * 10)).toString()
+            (n1 / (ten * 10)) == (n1.toString().reversed().toInt()/(ten*10))
         }
     }
     return bool
@@ -229,26 +229,23 @@ fun hasDifferentDigits(n: Int): Boolean {
     var n1:Int = n
     var all = 0
     //val charN:String = n.toString()
-    var bool = false
+    val bool:Boolean
+    var k = 0
 
     if (n<10) bool = false
-    else {if (n%(n%10)==0) bool=false
+  //  else {if (n%(n%10)==0) bool=false
         else {
         while (n1 > 0) {
             n1 /= 10
             all += 1
         }
         n1 = n
-        for (i in 1..all) {
-            for (j in (i + 1)..all) {
-                if ((n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble()) != (n1 % pow(10.0, j.toDouble())) / pow(10.0, (j - 1).toDouble())) {
-                    bool = true; break
-                }
-            }
-            if (bool) break
-        }
+        for (i in 2..all)
+            if (n1 % 10.0 != (n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble())) k += 1
+
+        /*if (charN[i]==charN[j]) {bool = false ; break}*/
+        bool = (k != 0)
     }
-    }/*if (charN[i]==charN[j]) {bool = false ; break}*/
     return bool
 }
 
@@ -259,28 +256,29 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO() /*{
+fun squareSequenceDigit(n: Int): Int {
 
-    var k:Int = 1 //счетчик
-    var dig:Int = 0   // число в квадрате
+    var k = 1 //счетчик
+    var dig:Int  // число в квадрате
     var num = 0    // номер числа
-    var all:Int = 0   //чисел в числе
+    var all = 0   //чисел в числе
     var ret = 0.0 //число, которое нужно вывести
 
     while (num<n) {
         dig = k*k
-        while (dig>0) {dig / 10 ; all+=1}
+        while (dig>0) {dig /= 10 ; all+=1}
         dig = k*k
         for (j in all downTo 1) {
             ret = dig / pow(10.0 , j.toDouble() - 1)
             num+=1
+            dig %= pow(10.0 , j.toDouble() - 1).toInt()
             if (num==n) break
         }
         all=0
         k+=1
     }
-    return num
-}*/
+    return ret.toInt()
+}
 
 /**
  * Сложная
