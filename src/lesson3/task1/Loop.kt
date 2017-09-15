@@ -228,7 +228,7 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     var n1:Int = n
     var all = 0
-    //val charN:String = n.toString()
+    //val charN:String = n.toString() ...
     val bool:Boolean
     var k = 0
 
