@@ -211,9 +211,9 @@ fun isPalindrome(n: Int): Boolean {
         n1=n
         for (i in 1..all) ten *= 10
         bool = if (num % 2 == 0) {
-            (n1 % ten).toString().reversed().toInt() == n1 / ten
+            (n1 % ten).toString().reversed() == (n1 / ten).toString()
         } else {
-            (n1 % ten).toString().reversed().toInt() == n1 / (ten * 10)
+            (n1 % ten).toString().reversed() == (n1 / (ten * 10)).toString()
         }
     }
     return bool
@@ -239,12 +239,14 @@ fun hasDifferentDigits(n: Int): Boolean {
             all += 1
         }
         n1 = n
-        for (i in 1..all)
+        for (i in 1..all) {
             for (j in (i + 1)..all) {
                 if ((n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble()) != (n1 % pow(10.0, j.toDouble())) / pow(10.0, (j - 1).toDouble())) {
                     bool = true; break
                 }
             }
+            if (bool) break
+        }
     }
     }/*if (charN[i]==charN[j]) {bool = false ; break}*/
     return bool
