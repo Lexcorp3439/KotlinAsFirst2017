@@ -290,9 +290,12 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int  {
 
-    var k = 3 //счетчик
+ //   var k = 3 //счетчик
+    var k1 = 1
+    var k2 = 1
     var dig:Int  // число в квадрате
     var dig1:Int
+    var digk:Int
     var num = 2    // номер числа
     var all = 0   //чисел в числе
     var ret = 0.0 //число, которое нужно вывести
@@ -300,8 +303,10 @@ fun fibSequenceDigit(n: Int): Int  {
 
     if (n==1 || n ==2 ) ret=1.0 else
     while (num<n) {
-        dig = fib(k)
+        //dig = fib(k)
+        dig = k1+k2
         dig1 = dig
+        digk = dig
         while (dig1>0) {dig1 /= 10 ; all+=1}
         for (j in all downTo 1) {
             ret = dig / pow(10.0 , j.toDouble() - 1)
@@ -310,7 +315,9 @@ fun fibSequenceDigit(n: Int): Int  {
             if (num==n) break
         }
         all=0
-        k+=1
+ //       k+=1
+        k2=k1
+        k1=digk
     }
     return ret.toInt()
 }
