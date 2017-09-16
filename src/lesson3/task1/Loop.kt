@@ -194,7 +194,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var n1:Int = n
+    var n1 = n
     var all = 0
 
     var ten = 1
@@ -211,7 +211,7 @@ fun isPalindrome(n: Int): Boolean {
         n1=n
         for (i in 1..all) ten *= 10
         bool = if (num % 2 == 0) {
-            (n1 / ten) == (n1.toString().reversed().toInt()/ten)
+           /* (n1 / ten) == (n1.toString().reversed().toInt()/ten) */( (n1/ten).toString().reversed().toInt() == n1 % ten   )
         } else {
             (n1 / (ten * 10)) == (n1.toString().reversed().toInt()/(ten*10))
         }
@@ -230,7 +230,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     var all = 0
     //val charN:String = n.toString() ...
     val bool:Boolean
-    var k = 0
+    var b = 0
 
     if (n<10) bool = false
   //  else {if (n%(n%10)==0) bool=false
@@ -240,11 +240,12 @@ fun hasDifferentDigits(n: Int): Boolean {
             all += 1
         }
         n1 = n
-        for (i in 2..all)
-            if (n1 % 10.0 != (n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble())) k += 1
-
+        for (i in 2..all) {
+            if (n1 % 10.0 == (n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble()))  b+=1
+        }
         /*if (charN[i]==charN[j]) {bool = false ; break}*/
-        bool = (k != 0)
+       // bool = (k > 0)
+        bool = b != all
     }
     return bool
 }
@@ -287,4 +288,29 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int  {
+
+    var k = 3 //счетчик
+    var dig:Int  // число в квадрате
+    var dig1:Int
+    var num = 2    // номер числа
+    var all = 0   //чисел в числе
+    var ret = 0.0 //число, которое нужно вывести
+
+
+    if (n==1 || n ==2 ) ret=1.0 else
+    while (num<n) {
+        dig = fib(k)
+        dig1 = dig
+        while (dig1>0) {dig1 /= 10 ; all+=1}
+        for (j in all downTo 1) {
+            ret = dig / pow(10.0 , j.toDouble() - 1)
+            num+=1
+            dig %= pow(10.0 , j.toDouble() - 1).toInt()
+            if (num==n) break
+        }
+        all=0
+        k+=1
+    }
+    return ret.toInt()
+}
