@@ -251,10 +251,10 @@ fun hasDifferentDigits(n: Int): Boolean {
     */
     var n1 = n
     var found = 0
-    var k = n1%10
+    val k = n1%10
     do{
         found = found*10 + k
-        n1/10 //; k = n1%10
+        n1/=10 //; k = n1%10
     } while (n1>0)
     return (found!=n)
 }
