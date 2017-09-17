@@ -184,6 +184,8 @@ class Tests {
         assertFalse(isPalindrome(3653))
         assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
+        assertTrue(isPalindrome(902040209)) // ошибка из-за нулей
+        assertFalse(isPalindrome(2147483647)) //слишком большое число
     }
 
     @Test
@@ -193,7 +195,8 @@ class Tests {
         assertTrue(hasDifferentDigits(54))
         assertTrue(hasDifferentDigits(222266666))
         assertFalse(hasDifferentDigits(0))
-        assertFalse(hasDifferentDigits(777))
+        assertFalse(hasDifferentDigits(777)) //Реши вопрос с одинаковыми числами
+        assertTrue(hasDifferentDigits(55514376)) // сделай проверку только по первой цифре, а не по всем
     }
 
     @Test
@@ -212,9 +215,11 @@ class Tests {
     fun fibSequenceDigit() {
         assertEquals(1, fibSequenceDigit(1))
         assertEquals(1, fibSequenceDigit(2))
+        assertEquals(2, fibSequenceDigit(3))
         assertEquals(3, fibSequenceDigit(4))
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
-        assertEquals(2, fibSequenceDigit(20))
+        assertEquals(2, fibSequenceDigit(20)) //233
+        assertEquals(0, fibSequenceDigit(233))
     }
 }

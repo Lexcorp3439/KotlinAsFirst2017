@@ -226,7 +226,7 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var n1:Int = n
+/*  var n1:Int = n
     var all = 0
     //val charN:String = n.toString() ...
     val bool:Boolean
@@ -248,6 +248,15 @@ fun hasDifferentDigits(n: Int): Boolean {
         bool = b != all
     }
     return bool
+    */
+    var n1 = n
+    var found = 0
+    var k = n1%10
+    do{
+        found = found*10 + k
+        n1/10 //; k = n1%10
+    } while (n1>0)
+    return (found!=n)
 }
 
 /**
