@@ -111,6 +111,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var absV=0.0
+
     if (v.isEmpty())
     else
         for (i in 0 until v.size){
@@ -136,6 +137,7 @@ fun mean(list: List<Double>): Double = if (list.isNotEmpty()) list.sum()/list.si
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val Center = list.sum()/list.size
+
     for (i in 0 until list.size) {
         val element = list[i]
             list[i] = element - Center
@@ -152,6 +154,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double{
     var C = 0.0
+
     if (a.isEmpty() || b.isEmpty() )
         else {
         for (i in 0 until a.size)
@@ -170,6 +173,7 @@ fun times(a: List<Double>, b: List<Double>): Double{
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var Px = 0.0
+
     for (i in 0 until p.size)
         Px += p[i]* pow(x,i.toDouble())
     return Px
@@ -187,6 +191,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
+
     for (i in 0 until list.size) {
         sum += list[i]
         list[i] = sum
@@ -201,7 +206,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var n1 = n
+    var j = 2
+    var k =0
+
+    while (n1>1){
+        for (i in j..n)
+            if (n1 % i == 0) {result.add(i); n1/=i ;k = i; break}
+        j = k
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -209,7 +226,25 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    //var string =""
+    val result = mutableListOf<Int>()
+    var n1 = n
+    var j = 2
+    var k = 0
+
+    while (n1 > 1) {
+        for (i in j..n)
+            if (n1 % i == 0) {
+                result.add(i); n1 /= i;k = i; break
+            }
+        j = k
+    }
+    //for (i in 0 until result.size ){
+    //}
+    return result.joinToString(separator = "*")
+    //return string
+}
 
 /**
  * Средняя
