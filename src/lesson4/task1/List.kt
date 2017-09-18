@@ -258,7 +258,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
     var nDiv:Int
 
-    while (n1>base){
+    while (n1>=base){
         nDiv = n1/base
         result.add(n1-nDiv*base)
         n1 = nDiv
@@ -286,7 +286,7 @@ fun convertToString(n: Int, base: Int): String {
     var n1 = n
     var nDiv:Int
 
-    while (n1>base){
+    while (n1>=base){
         nDiv = n1/base
         if (n1-nDiv*base < 10) result.add( (n1-nDiv*base).toString() )
         else result.add( con(n1-nDiv*base) )
@@ -339,14 +339,14 @@ fun decimalFromString(str: String, base: Int): Int {
     var power = str.length - 1.0
     var conv : Int
     for (char in str) {
-         conv = converttoInt(char)
+         conv = convertInt(char)
         result += conv * pow(base.toDouble(), power)
         power -=1
     }
     return result.toInt()
 }
 
-fun converttoInt (x: Char): Int = when (x){
+fun convertInt (x: Char): Int = when (x){
     '1' -> 1 ; '2' -> 2 ; '3' -> 3 ; '4' -> 4 ; '5' -> 5 ; '6' -> 6 ; '7'->7 ; '8' -> 8 ; '9' -> 9
     'a' -> 10 ; 'd' -> 13 ; 'g' -> 16 ; 'j' -> 19 ; 'm' -> 22 ; 'p' -> 25 ; 's' -> 28 ; 'v' -> 31
     'b' -> 11 ; 'e' -> 14 ; 'h' -> 17 ; 'k' -> 20 ; 'n' -> 23 ; 'q' -> 26 ; 't' -> 29 ; 'w' -> 32
