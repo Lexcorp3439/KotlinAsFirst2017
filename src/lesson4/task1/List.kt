@@ -253,7 +253,25 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var n1 = n
+    var nDiv:Int
+
+    while (n1>base){
+        nDiv = n1/base
+        result.add(n1-nDiv*base)
+        n1 = nDiv
+    }
+    result.add(n1)
+    for (i in 0 until result.size/2){
+       val x =  result[i]
+       result[i]= result[(result.size-1)-i]
+        result[(result.size-1)-i] = x
+    }
+    return result
+
+}
 
 /**
  * Сложная
@@ -263,8 +281,32 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val result = mutableListOf<String>()
+    var n1 = n
+    var nDiv:Int
 
+    while (n1>base){
+        nDiv = n1/base
+        if (n1-nDiv*base < 10) result.add( (n1-nDiv*base).toString() )
+        else result.add( con(n1-nDiv*base) )
+        n1 = nDiv
+    }
+    if (n1<10) result.add(n1.toString()) else result.add(con(n1))
+    for (i in 0 until result.size/2){
+        val x =  result[i]
+        result[i]= result[(result.size-1)-i]
+        result[(result.size-1)-i] = x
+    }
+    return result.joinToString(separator = "")
+}
+fun con(x: Int): String = when (x){
+    10 -> "a" ; 11 -> "b" ; 12 -> "c" ; 13 -> "d" ; 14 -> "e" ; 15 -> "f" ; 16 -> "g" ; 17 -> "h"
+    18 -> "i" ; 19 -> "j" ; 20 -> "k" ; 21 -> "l" ; 22 -> "m" ; 23 -> "n" ; 24 -> "o" ; 25 -> "p"
+    26 -> "q" ; 27 -> "r" ; 28 -> "s" ; 29 -> "t" ; 30 -> "u" ; 31 -> "v" ; 32 -> "w" ; 33 -> "x"
+    34 -> "y"
+    else -> "z"
+}
 /**
  * Средняя
  *
@@ -272,7 +314,16 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0.0
+    var power = digits.size - 1.0
+
+    for (element in digits) {
+        result += element * pow(base.toDouble(), power)
+        power -=1
+    }
+    return result.toInt()
+}
 
 /**
  * Сложная
@@ -283,7 +334,25 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var result = 0.0
+    var power = str.length - 1.0
+    var conv : Int
+    for (char in str) {
+         conv = converttoInt(char)
+        result += conv * pow(base.toDouble(), power)
+        power -=1
+    }
+    return result.toInt()
+}
+
+fun converttoInt (x: Char): Int = when (x){
+    '1' -> 1 ; '2' -> 2 ; '3' -> 3 ; '4' -> 4 ; '5' -> 5 ; '6' -> 6 ; '7'->7 ; '8' -> 8 ; '9' -> 9
+    'a' -> 10 ; 'd' -> 13 ; 'g' -> 16 ; 'j' -> 19 ; 'm' -> 22 ; 'p' -> 25 ; 's' -> 28 ; 'v' -> 31
+    'b' -> 11 ; 'e' -> 14 ; 'h' -> 17 ; 'k' -> 20 ; 'n' -> 23 ; 'q' -> 26 ; 't' -> 29 ; 'w' -> 32
+    'c' -> 12 ; 'f' -> 15 ; 'i' -> 18 ; 'l' -> 21 ; 'o' -> 24 ; 'r' -> 27 ; 'u' -> 30 ; 'x' -> 33
+    'y' -> 34 ; '0' -> 0 ; else -> 35
+}
 
 /**
  * Сложная
