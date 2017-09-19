@@ -371,4 +371,51 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val all = n.toString().length
+    var result = ""
+    result += if (all <=3 ) strNumber(all, n ,1)
+    else strNumber(all-3,n/1000, 2) + strNumber(3,n%1000, 1)
+    return result.trim()
+}
+
+fun strNumber (count: Int ,digit: Int, mod:Int): String {
+    var string =""
+    var num = count
+    var digit1 = digit
+    if (num == 3) {
+        when (digit1 / 100) {
+            1 -> string += "сто "; 2 -> string += "двести "; 3 -> string += "триста "; 4 -> string += "четыреста "; 5 -> string += "пятьсот "
+            6 -> string += "шестьсот "; 7 -> string += "семьсот "; 8 -> string += "восемьсот "; 9 -> string += "девятьсот "
+        }
+        num -= 1 ; digit1 %= 100 //; if (digit1 == 0) string+="тысяч "
+    }
+    if ( (digit1>=20 || digit1 <= 9) && digit1>0 ) {
+        if (num == 2) {
+            when (digit1 / 10) {
+                2 -> string += "двадцать "; 3 -> string += "тридцать "; 4 -> string += "сорок "; 5 -> string += "пятьдесят "
+                6 -> string += "шестьдесят "; 7 -> string += "семьдесят "; 8 -> string += "восемьдесят "; 9 -> string += "девяноста "
+            }
+            num -= 1; digit1 %= 10 ; if (digit1 == 0) string+="тысяч "
+        }
+        if (num == 1 && mod == 2) {
+            when (digit1) { 1 -> string += "одна тысяча "; 2 -> string += "две тысячи "
+                5 -> string += "пять тысяч "; 3 -> string += "три тысячи "; 4 -> string += "четыре тысячи "
+                6 -> string += "шесть тысяч "; 7 -> string += "семь тысяч "; 8 -> string += "восемь тысяч "; 9 -> string += "девять тысяч "
+            }
+        } else
+            if (num == 1 && mod == 1) {
+                when (digit1) { 1 -> string += "один"; 2 -> string += "два"
+                    5 -> string += "пять "; 3 -> string += "три "; 4 -> string += "четыре "
+                    6 -> string += "шесть "; 7 -> string += "семь "; 8 -> string += "восемь "; 9 -> string += "девять "
+                }
+            }
+    } else {
+        when (digit1){
+            10 -> string +="десять " ; 11 -> string +="одинадцать " ; 12 -> string +="двенадцать " ; 13 -> string +="тринадцать " ; 14 -> string +="четырнадцать " ; 15 -> string +="пятнадцать "
+            16 -> string +="шестнадцать " ; 17 -> string +="семнадцать " ; 18 -> string +="восемнадцать " ; 19 -> string +="девятнадцать "
+        }
+        if ( mod ==  2) string +="тысяч "
+    }
+    return string
+}
