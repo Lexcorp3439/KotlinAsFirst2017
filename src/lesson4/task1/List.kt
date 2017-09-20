@@ -362,7 +362,29 @@ fun convertInt (x: Char): Int = when (x){
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val I = "I" ; val V = "V" ; val X = "X" ; val L = "L" ; val C = "C" ; val D = "D" ; val M = "M"
+    var all = n.toString().length
+    var n1 = n
+    var string = ""
+    var count = pow(10.0,(all-1).toDouble()).toInt()
+    if (all == 4) {
+        when (n1 / count) { 1 ->string += M; 2 ->string += M + M; 3 ->string += M + M + M } //; 4 ->string += M + L; 5 ->string += M; 6 ->string += M; 7 ->string += M; 8 ->string += M; 9 ->string += M}
+        n1 %= count; count/=10; all-=1
+    }
+    if (all == 3) {
+        when (n1 / count) { 1 ->string += C; 2 ->string += C + C; 3 ->string += C + C + C; 4 ->string += C + D; 5 ->string += D; 6 ->string += D + C; 7 ->string += D + C + C; 8 ->string += D + C + C + C; 9 ->string += C + M}
+        n1 %= count; count/=10; all-=1
+    }
+    if (all == 2) {
+        when (n1 / count) { 1 ->string += X; 2 ->string += X + X; 3 ->string += X + X + X; 4 ->string += X + L; 5 ->string += L; 6 ->string += L + X; 7 ->string += L + X + X; 8 ->string += L + X + X + X; 9 ->string += X + C}
+        n1 %= count ; count/=10; all-=1
+    }
+    if (all == 1) {
+        when (n1 / count) { 1 ->string += I; 2 ->string += I + I; 3 ->string += I + I + I; 4 ->string += I + V; 5 ->string += V; 6 ->string += V + I; 7 ->string += V + I + I; 8 ->string += V + I + I + I; 9 ->string += I + X}
+    }
+    return string
+}
 
 /**
  * Очень сложная
@@ -374,7 +396,7 @@ fun roman(n: Int): String = TODO()
 fun russian(n: Int): String {
     val all = n.toString().length
     var result = ""
-    result += if (all <=3 ) strNumber(all, n ,1)
+    result += if (all <=3 ) strNumber(all, n ,1) // mod -- показатель порядка. к примеру для числа 123456 "123" - второй порядок (mod 2) , а 456 - первый порядок (mod 1)
     else strNumber(all-3,n/1000, 2) + strNumber(3,n%1000, 1)
     return result.trim()
 }
