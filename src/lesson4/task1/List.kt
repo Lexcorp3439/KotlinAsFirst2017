@@ -412,7 +412,7 @@ fun strNumber (count: Int ,digit: Int, mod:Int): String {
             }
     } else {
         when (digit1){
-            10 -> string +="десять " ; 11 -> string +="одинадцать " ; 12 -> string +="двенадцать " ; 13 -> string +="тринадцать " ; 14 -> string +="четырнадцать " ; 15 -> string +="пятнадцать "
+            10 -> string +="десять " ; 11 -> string +="одиннадцать " ; 12 -> string +="двенадцать " ; 13 -> string +="тринадцать " ; 14 -> string +="четырнадцать " ; 15 -> string +="пятнадцать "
             16 -> string +="шестнадцать " ; 17 -> string +="семнадцать " ; 18 -> string +="восемнадцать " ; 19 -> string +="девятнадцать "
         }
         if ( mod ==  2) string +="тысяч "
