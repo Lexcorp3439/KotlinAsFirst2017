@@ -396,7 +396,7 @@ fun strNumber (count: Int ,digit: Int, mod:Int): String {
                 2 -> string += "двадцать "; 3 -> string += "тридцать "; 4 -> string += "сорок "; 5 -> string += "пятьдесят "
                 6 -> string += "шестьдесят "; 7 -> string += "семьдесят "; 8 -> string += "восемьдесят "; 9 -> string += "девяносто "
             }
-            num -= 1; digit1 %= 10 ; if (digit1 == 0 && mod == 2) string+="тысяч "
+            num -= 1; digit1 %= 10 ; if (digit1 == 0 && mod == 2) string+="тысяч " //
         }
         if (num == 1 && mod == 2) {
             when (digit1) { 1 -> string += "одна тысяча "; 2 -> string += "две тысячи "
