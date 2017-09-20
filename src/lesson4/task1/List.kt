@@ -368,9 +368,9 @@ fun roman(n: Int): String {
     var n1 = n
     var string = ""
     var count = pow(10.0,(all-1).toDouble()).toInt()
-    if (all == 4) {
-        when (n1 / count) { 1 ->string += M; 2 ->string += M + M; 3 ->string += M + M + M } //; 4 ->string += M + L; 5 ->string += M; 6 ->string += M; 7 ->string += M; 8 ->string += M; 9 ->string += M}
-        n1 %= count; count/=10; all-=1
+    if (all >= 4) {
+        for (i in 1..n1/1000) string += M
+        count = 1000; n1 %= count; count/=10; all = 3
     }
     if (all == 3) {
         when (n1 / count) { 1 ->string += C; 2 ->string += C + C; 3 ->string += C + C + C; 4 ->string += C + D; 5 ->string += D; 6 ->string += D + C; 7 ->string += D + C + C; 8 ->string += D + C + C + C; 9 ->string += C + M}
