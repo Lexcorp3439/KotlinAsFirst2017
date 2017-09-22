@@ -65,8 +65,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var x = n
     var result = 0
-    if (n==0) return 1 else
-    while (abs(x)>0) {x/=10 ; result +=1}
+    if (n == 0) return 1 else
+    while (abs(x) > 0) {x /= 10 ; result += 1}
     return result
 }
 
@@ -76,7 +76,7 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n>2)  fib(n-1)+ fib (n-2)  else 1
+fun fib(n: Int): Int = if (n > 2)  fib(n - 1)+ fib(n - 2)  else 1
 
 /**
  * Простая
@@ -85,14 +85,14 @@ fun fib(n: Int): Int = if (n>2)  fib(n-1)+ fib (n-2)  else 1
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var nod=0
-    for (k in 1.. n * m) {
-        if (k % m == 0 && k % n == 0){ nod=k; break}
+    var nod = 0
+    for (k in 1.. n*m) {
+        if (k % m == 0 && k % n == 0){ nod = k; break}
     }
     return nod
 }
 
-/**
+    /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
@@ -125,7 +125,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var bool = true
-    for (i in 2..m) {if (m % i ==0 && n % i == 0) bool= false}
+    for (i in 2..m) {if (m % i ==0 && n % i == 0) bool = false}
     return bool
 }
 
@@ -150,15 +150,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var x1 =x
-    while (abs(x1) > 2*PI)  {if (x1 < 0) x1+= 2*PI else x1-= 2*PI}
+    var x1 = x
+    while (abs(x1) > 2 * PI)  {if (x1 < 0) x1 += 2 * PI else x1 -= 2 * PI}
     var a = x1
     var b = x1
     var i = 0
-    while (abs(b)>= eps) {
+    while (abs(b) >= eps) {
         i++
-        b = pow(x1,((2*i)+1).toDouble() ) / factorial(2*i+1)
-        if (i%2 == 1) a-=b else a +=b
+        b = pow(x1,((2 * i) + 1).toDouble() ) / factorial(2 * i + 1)
+        if (i % 2 == 1) a -= b else a += b
     }
     return a
 }
@@ -172,14 +172,14 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var x1 =x
-    while (abs(x1) > 2*PI)  {if (x1 < 0) x1+= 2*PI else x1-= 2*PI}
+    while (abs(x1) > 2 * PI)  {if (x1 < 0) x1 += 2 * PI else x1 -= 2 * PI}
     var a = 1.0
     var b = a
     var i = 0
-    while (abs(b)>= eps) {
+    while (abs(b) >= eps) {
         i++
-        b = pow(x1,(2*i).toDouble() ) / factorial(2*i)
-        if (i%2 == 1) a-=b else a+=b
+        b = pow(x1,(2 * i).toDouble() ) / factorial(2 * i)
+        if (i % 2 == 1) a -= b else a += b
     }
     return a
 }
@@ -196,16 +196,16 @@ fun revert(n: Int): Int {
     var all = -1
     var allrever = 1
 
-    while (n1>0) {
+    while (n1 > 0) {
         n1 /= 10
-        all+=1
+        all += 1
     }
-    n1 =n
-    while (all>=0) {
-        new += (n1/ pow(10.0,all.toDouble()).toInt())*allrever
+    n1 = n
+    while (all >= 0) {
+        new += (n1/ pow(10.0, all.toDouble()).toInt()) * allrever
         n1 %= pow(10.0, all.toDouble()).toInt()
-        all-=1
-        allrever*=10
+        all -= 1
+        allrever *= 10
     }
     return new
 }
@@ -224,20 +224,20 @@ fun isPalindrome(n: Int): Boolean {
     var ten = 1
     val bool:Boolean
 
-    if (abs(n)<10) bool = true
+    if (abs(n) < 10) bool = true
     else {
         while (n1 > 0) {
             n1 /= 10
             all += 1
         }
-        val num= all
+        val num = all
         all /= 2
-        n1=n
+        n1 = n
         for (i in 1..all) ten *= 10
         bool = if (num % 2 == 0) {
-           /* (n1 / ten) == (n1.toString().reversed().toInt()/ten) */( (n1/ten).toString().reversed().toInt() == n1 % ten   )
+           /* (n1 / ten) == (n1.toString().reversed().toInt()/ten) */( (n1 / ten).toString().reversed().toInt() == n1 % ten   )
         } else {
-            (n1 / (ten * 10)) == (n1.toString().reversed().toInt()/(ten*10))
+            (n1 / (ten * 10)) == (n1.toString().reversed().toInt()/(ten * 10))
         }
     }
     return bool
@@ -275,12 +275,12 @@ fun hasDifferentDigits(n: Int): Boolean {
     */
     var n1 = n
     var found = 0
-    val k = n1%10
+    val k = n1 % 10
     do{
-        found = found*10 + k
-        n1/=10 //; k = n1%10
-    } while (n1>0)
-    return (found!=n)
+        found = found * 10 + k
+        n1 /= 10 //; k = n1%10
+    } while (n1 > 0)
+    return (found != n)
 }
 
 /**
@@ -298,18 +298,18 @@ fun squareSequenceDigit(n: Int): Int {
     var all = 0   //чисел в числе
     var ret = 0.0 //число, которое нужно вывести
 
-    while (num<n) {
-        dig = k*k
-        while (dig>0) {dig /= 10 ; all+=1}
-        dig = k*k
+    while (num < n) {
+        dig = k * k
+        while (dig > 0) {dig /= 10; all += 1}
+        dig = k * k
         for (j in all downTo 1) {
-            ret = dig / pow(10.0 , j.toDouble() - 1)
-            num+=1
-            dig %= pow(10.0 , j.toDouble() - 1).toInt()
-            if (num==n) break
+            ret = dig / pow(10.0, j.toDouble() - 1)
+            num += 1
+            dig %= pow(10.0, j.toDouble() - 1).toInt()
+            if (num == n) break
         }
-        all=0
-        k+=1
+        all = 0
+        k += 1
     }
     return ret.toInt()
 }
@@ -334,23 +334,23 @@ fun fibSequenceDigit(n: Int): Int  {
     var ret = 0.0 //число, которое нужно вывести
 
 
-    if (n==1 || n ==2 ) ret=1.0 else
-    while (num<n) {
+    if (n == 1 || n == 2 ) ret = 1.0 else
+    while (num < n) {
         //dig = fib(k)
-        dig = k1+k2
+        dig = k1 + k2
         dig1 = dig
         digk = dig
-        while (dig1>0) {dig1 /= 10 ; all+=1}
+        while (dig1 > 0) {dig1 /= 10 ; all += 1}
         for (j in all downTo 1) {
-            ret = dig / pow(10.0 , j.toDouble() - 1)
-            num+=1
-            dig %= pow(10.0 , j.toDouble() - 1).toInt()
-            if (num==n) break
+            ret = dig / pow(10.0, j.toDouble() - 1)
+            num += 1
+            dig %= pow(10.0, j.toDouble() - 1).toInt()
+            if (num == n) break
         }
-        all=0
+        all = 0
  //       k+=1
-        k2=k1
-        k1=digk
+        k2 = k1
+        k1 = digk
     }
     return ret.toInt()
 }
