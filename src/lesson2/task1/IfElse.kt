@@ -134,49 +134,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         sqr(max) > sqr(x1) + sqr(x2) -> 2
         else -> 1
     }
-
-
-    /*
-    val cosA = (sqr(b) + sqr(c) - sqr(a)) / 2 * b * c
-    val cosC = (sqr(b) + sqr(a) - sqr(c)) / 2 * b * a
-    val cosB = (sqr(a) + sqr(c) - sqr(b)) / 2 * a * c
-
-    when {
-        sqr(a) == sqr(b) + sqr(c) || sqr(b) == sqr(a) + sqr(c) || sqr(c) == sqr(b) + sqr(c) -> return 1
-        a == b && b == c || a == b && b > c || a == c && c > b || c == b && b > a -> return 0
-        a != b && b != c && a != c -> when {
-
-            a > b && a > c -> return when {
-                c + b < a -> -1
-                cosA < 0 -> 2
-                else -> 0
-            }
-            c > b && c > a -> return when {
-                b + a < c -> -1
-                cosC < 0 -> 2
-                else -> 0
-            }
-            b > a && b > c -> return when {
-                c + a < b -> -1
-                cosB < 0 -> 2
-                else -> 0
-            }
-
-        }
-    }
-
-    return when {
-        ( (a == b) && (b < c) && (a + b > c) && (cosC < 0) ) -> 2
-        ( (c == b) && (b < a) && (c + b > a) && (cosA < 0) ) -> 2
-        ( (a == c) && (c < b) && (a + c > b) && (cosB < 0) ) -> 2
-        ( (a == b) && (b < c) && (a + b > c) && (cosC > 0) ) -> 0
-        ( (c == b) && (b < a) && (c + b > a) && (cosA > 0) ) -> 0
-        ( (a == c) && (c < b) && (a + c > b) && (cosB > 0) ) -> 0
-        ( (a == b) && (b < c) && (a + b < c) ) -> -1
-        ( (c == b) && (b < a) && (c + b < a) ) -> -1
-        ( (a == c) && (c < b) && (a + c < b) ) -> -1
-        else -> -1
-    } */
 }
 
 /**
@@ -201,8 +158,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     }
     return when {
         a == b && c != d -> if (a in c..d) 0 else -1
-        else -> /*a != b && c == d -> */ if (c in a..b) 0 else -1
-        //a == b -> 1
-       // else -> -1
+        else ->  if (c in a..b) 0 else -1
     }
 }

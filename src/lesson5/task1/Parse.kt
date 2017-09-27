@@ -75,7 +75,7 @@ fun dateStrToDigit(str: String): String {
 
     if (str matches Digitregex ) {
         var (days, month, year) = str.split(" ")
-        if (days.toInt()<10) days = "0"+ days
+        if (days.toInt()<10) days = "0"+ days.toInt().toString()
         string = days + "." + partconvert(month) + year
         if (partconvert(month) == NaN.toString() ) string = ""
     }
@@ -130,6 +130,9 @@ fun partconvert2(str: String): String = when (str) {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
+// private val charRegex3 = Regex("^/d$")
+// private val simbolRegex3 = Regex("^[+-/() ]$")
+
 fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
