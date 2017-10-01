@@ -130,10 +130,17 @@ fun partconvert2(str: String): String = when (str) {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-// private val charRegex3 = Regex("^/d$")
-// private val simbolRegex3 = Regex("^[+-/() ]$")
 
-fun flattenPhoneNumber(phone: String): String = TODO()
+private val simbol = Regex("\\d+")
+
+fun flattenPhoneNumber(phone: String): String {
+    var plus = ""
+
+    if (phone.first() == '+' ) plus = "+"
+    val str = phone.split(" ", "-", "+", "(", ")")
+    return if (str.joinToString("") matches simbol ) plus + str.joinToString("")
+    else ""
+}
 
 /**
  * Средняя
@@ -145,7 +152,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+val regexDigit = Regex ("\\d+")
+
+fun bestLongJump(jumps: String): Int {
+    var max = 0
+    val str = jumps.split(" ", "-", "%")
+
+    if (str.joinToString("") matches regexDigit)
+        for (part in str ) {
+            if (part != "" && part.toInt() > max) max = part.toInt() }
+    else return -1
+    return max
+}
 
 /**
  * Сложная
@@ -168,7 +186,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+val megaRegex = Regex("\\d+([+-]\\d+)*")
+
+fun plusMinus(expression: String): Int {
+    val str = expression.split(" ")
+    var sorting = 1
+    var result = 0
+    var intermediate = ""
+
+    require(str.joinToString ("") matches megaRegex)
+    for (part in str)
+    {
+        if (sorting == 1) result = part.toInt()
+        if (sorting % 2 == 1 && sorting != 1) if (intermediate == "+") result += part.toInt()
+        else result -= part.toInt()
+        if (sorting % 2 == 0) intermediate = part
+        sorting ++
+    }
+    return result
+}
 
 /**
  * Сложная
