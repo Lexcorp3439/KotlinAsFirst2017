@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 import java.lang.Double.NaN
@@ -50,12 +51,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -73,11 +72,11 @@ private val Digitregex = Regex("^\\d{1,2} [а-я]{3,} \\d+$")
 fun dateStrToDigit(str: String): String {
     var string = ""
 
-    if (str matches Digitregex ) {
+    if (str matches Digitregex) {
         var (days, month, year) = str.split(" ")
-        if (days.toInt()<10) days = "0"+ days.toInt().toString()
+        if (days.toInt() < 10) days = "0" + days.toInt().toString()
         string = days + "." + partconvert(month) + year
-        if (partconvert(month) == NaN.toString() ) string = ""
+        if (partconvert(month) == NaN.toString()) string = ""
     }
     return string
 }
@@ -100,11 +99,11 @@ fun partconvert(str: String): String = when (str) {
 fun dateDigitToStr(digital: String): String {
     var string = ""
 
-    if (digital matches Digitregex2 ) {
+    if (digital matches Digitregex2) {
         var (days, month, year) = digital.split(".")
-        if (days.toInt()<10) days = days.toInt().toString()
+        if (days.toInt() < 10) days = days.toInt().toString()
         string = days + " " + partconvert2(month) + year
-        if (partconvert2(month) == NaN.toString() ) string = ""
+        if (partconvert2(month) == NaN.toString()) string = ""
     }
     return string
 }
@@ -112,12 +111,13 @@ fun dateDigitToStr(digital: String): String {
 private val Digitregex2 = Regex("^\\d{2}\\.\\d{2}\\.\\d+$")
 
 fun partconvert2(str: String): String = when (str) {
-    "12" -> "декабря "; "01" -> "января "; "02"->"февраля "
+    "12" -> "декабря "; "01" -> "января "; "02" -> "февраля "
     "03" -> "марта "; "04" -> "апреля "; "05" -> "мая "
     "06" -> "июня "; "07" -> "июля "; "08" -> "августа "
     "09" -> "сентября "; "10" -> "октября "; "11" -> "ноября "
     else -> NaN.toString()
 }
+
 /**
  * Средняя
  *
@@ -136,9 +136,10 @@ private val simbol = Regex("\\d+")
 fun flattenPhoneNumber(phone: String): String {
     var plus = ""
 
-    if (phone.first() == '+' ) plus = "+"
+    if (phone == "") return ""
+    if (phone.first() == '+') plus = "+"
     val str = phone.split(" ", "-", "+", "(", ")")
-    return if (str.joinToString("") matches simbol ) plus + str.joinToString("")
+    return if (str.joinToString("") matches simbol) plus + str.joinToString("")
     else ""
 }
 
@@ -152,15 +153,16 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-val regexDigit = Regex ("\\d+")
+val regexDigit = Regex("\\d+")
 
 fun bestLongJump(jumps: String): Int {
     var max = 0
     val str = jumps.split(" ", "-", "%")
 
     if (str.joinToString("") matches regexDigit)
-        for (part in str ) {
-            if (part != "" && part.toInt() > max) max = part.toInt() }
+        for (part in str) {
+            if (part != "" && part.toInt() > max) max = part.toInt()
+        }
     else return -1
     return max
 }
@@ -194,14 +196,13 @@ fun plusMinus(expression: String): Int {
     var result = 0
     var intermediate = ""
 
-    require(str.joinToString ("") matches megaRegex)
-    for (part in str)
-    {
+    require(str.joinToString("") matches megaRegex)
+    for (part in str) {
         if (sorting == 1) result = part.toInt()
         if (sorting % 2 == 1 && sorting != 1) if (intermediate == "+") result += part.toInt()
         else result -= part.toInt()
         if (sorting % 2 == 0) intermediate = part
-        sorting ++
+        sorting++
     }
     return result
 }
@@ -215,7 +216,24 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val string = str.split(" ")
+    var space = 0
+    var number = 0
+    var answer = 0
+
+    for (i in 1 until string.size) {
+        if (string[i - 1].toLowerCase() == string[i].toLowerCase()) {
+            number = i - 1
+            break
+        }
+    }
+    for (i in 0 until str.length) {
+        if (str[i] == ' ') space += 1
+        if (space == number - 1) answer = i + 2
+    }
+    return if (answer == 0) -1 else answer
+}
 
 /**
  * Сложная
@@ -228,7 +246,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+val stringRegex = Regex("^((\\S)+ \\d+\\.\\d;? )*((\\S)+ \\d+\\.\\d)$")
+
+fun mostExpensive(description: String): String {
+    var max = 0.0
+    var maxNum = 1
+    val str = description.split(" ")
+
+    return if (description matches stringRegex) {
+        for (i in 1 until str.size - 2 step 3)
+            if (str[i].toDouble() > max) {
+                max = str[i].toDouble(); maxNum = i
+            }
+        str[maxNum - 1]
+    } else ""
+}
 
 /**
  * Сложная

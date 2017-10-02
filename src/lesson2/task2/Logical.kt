@@ -65,9 +65,3 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
             else -> false
         }
 }
-
-/* (a*b<r*s && ((a<r && b<s) || (b<r && a<s)) ) -> true
- (b*c<r*s && ((b<r && c<s) || (c<r && b<s)) ) -> true
- (a*c<r*s && ((a<r && c<s) || (c<r && a<s)) ) -> true */
-
-//

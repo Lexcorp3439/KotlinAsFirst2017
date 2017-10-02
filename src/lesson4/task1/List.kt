@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -110,11 +111,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var absV=0.0
+    var absV = 0.0
 
     if (v.isEmpty())
     else
-        for (i in 0 until v.size){
+        for (i in 0 until v.size) {
             absV += sqr(v[i])
         }
     return sqrt(absV)
@@ -140,8 +141,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 
     for (i in 0 until list.size) {
         val element = list[i]
-            list[i] = element - Center
-        }
+        list[i] = element - Center
+    }
     return list
 }
 
@@ -152,13 +153,13 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double{
+fun times(a: List<Double>, b: List<Double>): Double {
     var C = 0.0
 
-    if (a.isEmpty() || b.isEmpty() )
-        else {
+    if (a.isEmpty() || b.isEmpty())
+    else {
         for (i in 0 until a.size)
-            C+= a[i] * b[i]
+            C += a[i] * b[i]
     }
     return C
 }
@@ -175,7 +176,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     var Px = 0.0
 
     for (i in 0 until p.size)
-        Px += p[i] * pow(x,i.toDouble())
+        Px += p[i] * pow(x, i.toDouble())
     return Px
 }
 
@@ -210,11 +211,13 @@ fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n1 = n
     var j = 2
-    var k =0
+    var k = 0
 
-    while (n1 > 1){
+    while (n1 > 1) {
         for (i in j..n)
-            if (n1 % i == 0) {result.add(i); n1 /= i ;k = i; break}
+            if (n1 % i == 0) {
+                result.add(i); n1 /= i;k = i; break
+            }
         j = k
     }
     return result
@@ -256,17 +259,17 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n1 = n
-    var nDiv:Int
+    var nDiv: Int
 
-    while (n1 >= base){
+    while (n1 >= base) {
         nDiv = n1 / base
         result.add(n1 - nDiv * base)
         n1 = nDiv
     }
     result.add(n1)
-    for (i in 0 until result.size / 2){
-       val x = result[i]
-       result[i]= result[(result.size - 1) - i]
+    for (i in 0 until result.size / 2) {
+        val x = result[i]
+        result[i] = result[(result.size - 1) - i]
         result[(result.size - 1) - i] = x
     }
     return result
@@ -284,29 +287,31 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val result = mutableListOf<String>()
     var n1 = n
-    var nDiv:Int
+    var nDiv: Int
 
-    while (n1 >= base){
+    while (n1 >= base) {
         nDiv = n1 / base
-        if (n1 - nDiv * base < 10) result.add( (n1 - nDiv * base).toString() )
-        else result.add( con(n1 - nDiv * base) )
+        if (n1 - nDiv * base < 10) result.add((n1 - nDiv * base).toString())
+        else result.add(con(n1 - nDiv * base))
         n1 = nDiv
     }
     if (n1 < 10) result.add(n1.toString()) else result.add(con(n1))
-    for (i in 0 until result.size/2){
+    for (i in 0 until result.size / 2) {
         val x = result[i]
         result[i] = result[(result.size - 1) - i]
         result[(result.size - 1) - i] = x
     }
     return result.joinToString(separator = "")
 }
-fun con(x: Int): String = when (x){
-    10 -> "a" ; 11 -> "b" ; 12 -> "c" ; 13 -> "d" ; 14 -> "e" ; 15 -> "f" ; 16 -> "g" ; 17 -> "h"
-    18 -> "i" ; 19 -> "j" ; 20 -> "k" ; 21 -> "l" ; 22 -> "m" ; 23 -> "n" ; 24 -> "o" ; 25 -> "p"
-    26 -> "q" ; 27 -> "r" ; 28 -> "s" ; 29 -> "t" ; 30 -> "u" ; 31 -> "v" ; 32 -> "w" ; 33 -> "x"
+
+fun con(x: Int): String = when (x) {
+    10 -> "a"; 11 -> "b"; 12 -> "c"; 13 -> "d"; 14 -> "e"; 15 -> "f"; 16 -> "g"; 17 -> "h"
+    18 -> "i"; 19 -> "j"; 20 -> "k"; 21 -> "l"; 22 -> "m"; 23 -> "n"; 24 -> "o"; 25 -> "p"
+    26 -> "q"; 27 -> "r"; 28 -> "s"; 29 -> "t"; 30 -> "u"; 31 -> "v"; 32 -> "w"; 33 -> "x"
     34 -> "y"
     else -> "z"
 }
+
 /**
  * Средняя
  *
@@ -337,21 +342,21 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var result = 0.0
     var power = str.length - 1.0
-    var conv : Int
+    var conv: Int
     for (char in str) {
-         conv = convertInt(char)
+        conv = convertInt(char)
         result += conv * pow(base.toDouble(), power)
         power -= 1
     }
     return result.toInt()
 }
 
-fun convertInt (x: Char): Int = when (x){
-    '1' -> 1 ; '2' -> 2 ; '3' -> 3 ; '4' -> 4 ; '5' -> 5 ; '6' -> 6 ; '7'->7 ; '8' -> 8 ; '9' -> 9
-    'a' -> 10 ; 'd' -> 13 ; 'g' -> 16 ; 'j' -> 19 ; 'm' -> 22 ; 'p' -> 25 ; 's' -> 28 ; 'v' -> 31
-    'b' -> 11 ; 'e' -> 14 ; 'h' -> 17 ; 'k' -> 20 ; 'n' -> 23 ; 'q' -> 26 ; 't' -> 29 ; 'w' -> 32
-    'c' -> 12 ; 'f' -> 15 ; 'i' -> 18 ; 'l' -> 21 ; 'o' -> 24 ; 'r' -> 27 ; 'u' -> 30 ; 'x' -> 33
-    'y' -> 34 ; '0' -> 0 ; else -> 35
+fun convertInt(x: Char): Int = when (x) {
+    '1' -> 1; '2' -> 2; '3' -> 3; '4' -> 4; '5' -> 5; '6' -> 6; '7' -> 7; '8' -> 8; '9' -> 9
+    'a' -> 10; 'd' -> 13; 'g' -> 16; 'j' -> 19; 'm' -> 22; 'p' -> 25; 's' -> 28; 'v' -> 31
+    'b' -> 11; 'e' -> 14; 'h' -> 17; 'k' -> 20; 'n' -> 23; 'q' -> 26; 't' -> 29; 'w' -> 32
+    'c' -> 12; 'f' -> 15; 'i' -> 18; 'l' -> 21; 'o' -> 24; 'r' -> 27; 'u' -> 30; 'x' -> 33
+    'y' -> 34; '0' -> 0; else -> 35
 }
 
 /**
@@ -363,25 +368,34 @@ fun convertInt (x: Char): Int = when (x){
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val I = "I" ; val V = "V" ; val X = "X" ; val L = "L" ; val C = "C" ; val D = "D" ; val M = "M"
+    val I = "I"
+    val V = "V"
+    val X = "X"
+    val L = "L"
+    val C = "C"
+    val D = "D"
+    val M = "M"
     var all = n.toString().length
     var n1 = n
     var string = ""
-    var count = pow(10.0,(all - 1).toDouble()).toInt()
+    var count = pow(10.0, (all - 1).toDouble()).toInt()
     if (all >= 4) {
-        for (i in 1..n1/1000) string += M
+        for (i in 1..n1 / 1000) string += M
         count = 1000; n1 %= count; count /= 10; all = 3
     }
     if (all == 3) {
-        when (n1 / count) { 1 -> string += C; 2 -> string += C + C; 3 -> string += C + C + C; 4 -> string += C + D; 5 -> string += D; 6 -> string += D + C; 7 -> string += D + C + C; 8 -> string += D + C + C + C; 9 -> string += C + M}
+        when (n1 / count) { 1 -> string += C; 2 -> string += C + C; 3 -> string += C + C + C; 4 -> string += C + D; 5 -> string += D; 6 -> string += D + C; 7 -> string += D + C + C; 8 -> string += D + C + C + C; 9 -> string += C + M
+        }
         n1 %= count; count /= 10; all -= 1
     }
     if (all == 2) {
-        when (n1 / count) { 1 -> string += X; 2 -> string += X + X; 3 -> string += X + X + X; 4 -> string += X + L; 5 -> string += L; 6 -> string += L + X; 7 -> string += L + X + X; 8 -> string += L + X + X + X; 9 -> string += X + C}
-        n1 %= count ; count /= 10; all -= 1
+        when (n1 / count) { 1 -> string += X; 2 -> string += X + X; 3 -> string += X + X + X; 4 -> string += X + L; 5 -> string += L; 6 -> string += L + X; 7 -> string += L + X + X; 8 -> string += L + X + X + X; 9 -> string += X + C
+        }
+        n1 %= count; count /= 10; all -= 1
     }
     if (all == 1) {
-        when (n1 / count) { 1 -> string += I; 2 -> string += I + I; 3 -> string += I + I + I; 4 -> string += I + V; 5 -> string += V; 6 -> string += V + I; 7 -> string += V + I + I; 8 -> string += V + I + I + I; 9 -> string += I + X}
+        when (n1 / count) { 1 -> string += I; 2 -> string += I + I; 3 -> string += I + I + I; 4 -> string += I + V; 5 -> string += V; 6 -> string += V + I; 7 -> string += V + I + I; 8 -> string += V + I + I + I; 9 -> string += I + X
+        }
     }
     return string
 }
@@ -396,13 +410,13 @@ fun roman(n: Int): String {
 fun russian(n: Int): String {
     val all = n.toString().length
     var result = ""
-    result += if (all <= 3 ) strNumber(all, n,1) // mod -- показатель порядка. к примеру для числа 123456 "123" - второй порядок (mod 2) , а 456 - первый порядок (mod 1)
-    else strNumber(all - 3,n / 1000,2) + strNumber(3,n%1000,1)
+    result += if (all <= 3) strNumber(all, n, 1) // mod -- показатель порядка. к примеру для числа 123456 "123" - второй порядок (mod 2) , а 456 - первый порядок (mod 1)
+    else strNumber(all - 3, n / 1000, 2) + strNumber(3, n % 1000, 1)
     return result.trim()
 }
 
-fun strNumber (count: Int ,digit: Int, mod:Int): String {
-    var string =""
+fun strNumber(count: Int, digit: Int, mod: Int): String {
+    var string = ""
     var num = count
     var digit1 = digit
     if (num == 3) {
@@ -410,15 +424,15 @@ fun strNumber (count: Int ,digit: Int, mod:Int): String {
             1 -> string += "сто "; 2 -> string += "двести "; 3 -> string += "триста "; 4 -> string += "четыреста "; 5 -> string += "пятьсот "
             6 -> string += "шестьсот "; 7 -> string += "семьсот "; 8 -> string += "восемьсот "; 9 -> string += "девятьсот "
         }
-        num -= 1 ; digit1 %= 100 //; if (digit1 == 0) string+="тысяч "
+        num -= 1; digit1 %= 100 //; if (digit1 == 0) string+="тысяч "
     }
-    if ( (digit1 >= 20 || digit1 <= 9) && digit1 > 0 ) {
+    if ((digit1 >= 20 || digit1 <= 9) && digit1 > 0) {
         if (num == 2) {
             when (digit1 / 10) {
                 2 -> string += "двадцать "; 3 -> string += "тридцать "; 4 -> string += "сорок "; 5 -> string += "пятьдесят "
                 6 -> string += "шестьдесят "; 7 -> string += "семьдесят "; 8 -> string += "восемьдесят "; 9 -> string += "девяносто "
             }
-            num -= 1; digit1 %= 10 ; if (digit1 == 0 && mod == 2) string += "тысяч "
+            num -= 1; digit1 %= 10; if (digit1 == 0 && mod == 2) string += "тысяч "
         }
         if (num == 1 && mod == 2) {
             when (digit1) { 1 -> string += "одна тысяча "; 2 -> string += "две тысячи "
@@ -433,11 +447,11 @@ fun strNumber (count: Int ,digit: Int, mod:Int): String {
                 }
             }
     } else {
-        when (digit1){
-            10 -> string +="десять " ; 11 -> string +="одиннадцать " ; 12 -> string +="двенадцать " ; 13 -> string +="тринадцать " ; 14 -> string +="четырнадцать " ; 15 -> string +="пятнадцать "
-            16 -> string +="шестнадцать " ; 17 -> string +="семнадцать " ; 18 -> string +="восемнадцать " ; 19 -> string +="девятнадцать "
+        when (digit1) {
+            10 -> string += "десять "; 11 -> string += "одиннадцать "; 12 -> string += "двенадцать "; 13 -> string += "тринадцать "; 14 -> string += "четырнадцать "; 15 -> string += "пятнадцать "
+            16 -> string += "шестнадцать "; 17 -> string += "семнадцать "; 18 -> string += "восемнадцать "; 19 -> string += "девятнадцать "
         }
-        if ( mod ==  2) string += "тысяч "
+        if (mod == 2) string += "тысяч "
     }
     return string
 }
