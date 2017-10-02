@@ -246,7 +246,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-val stringRegex = Regex("^((\\S)+ \\d+\\.\\d;? )*((\\S)+ \\d+\\.\\d)$")
+val stringRegex = Regex("^((\\S)+ \\d+\\.\\d+;? )*((\\S)+ \\d+\\.\\d+)$")
 
 fun mostExpensive(description: String): String {
     var max = 0.0
