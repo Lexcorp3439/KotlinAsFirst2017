@@ -251,12 +251,13 @@ val stringRegex = Regex("^((\\S)+ \\d+\\.\\d+;? )*((\\S)+ \\d+\\.\\d+)$")
 fun mostExpensive(description: String): String {
     var max = 0.0
     var maxNum = 1
-    val str = description.split(" ")
+    val str = description.split(" ", ";")
 
     return if (description matches stringRegex) {
-        for (i in 1 until str.size - 2 step 3)
+        for (i in 1 until str.size - 1 step 3)
             if (str[i].toDouble() > max) {
-                max = str[i].toDouble(); maxNum = i
+                max = str[i].toDouble()
+                maxNum = i
             }
         str[maxNum - 1]
     } else ""
@@ -273,7 +274,49 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+val romanRegex = Regex("^[M]*(CM?|(DC{0,3})|CD?|C{0,3})?(XC?|(LX{0,3})|XL?|X{0,3})?(IX?|(VI{0,3})|IV?|I{0,3})?$")
+
+fun fromRoman(roman: String): Int {
+    return if (roman matches romanRegex) {
+        convertToRoman(roman)
+    } else -1
+}
+
+fun convertToRoman(str: String): Int {
+    var sum = 0
+    for (i in 0 until str.length) {
+        if (i > 0) {
+            when {
+                str[i - 1] == 'I' && str[i] == 'V' -> sum = sum - 1 + 4
+                str[i - 1] == 'I' && str[i] == 'X' -> sum = sum - 1 + 9
+                str[i - 1] == 'X' && str[i] == 'L' -> sum = sum - 10 + 40
+                str[i - 1] == 'X' && str[i] == 'C' -> sum = sum - 10 + 90
+                str[i - 1] == 'C' && str[i] == 'D' -> sum = sum - 100 + 400
+                str[i - 1] == 'C' && str[i] == 'M' -> sum = sum - 100 + 900
+                else -> when (str[i]) {
+                    'I' -> sum += 1
+                    'V' -> sum += 5
+                    'X' -> sum += 10
+                    'L' -> sum += 50
+                    'C' -> sum += 100
+                    'D' -> sum += 500
+                    'M' -> sum += 1000
+                    else -> -1
+                }
+            }
+        } else when (str[i]) {
+            'I' -> sum += 1
+            'V' -> sum += 5
+            'X' -> sum += 10
+            'L' -> sum += 50
+            'C' -> sum += 100
+            'D' -> sum += 500
+            'M' -> sum += 1000
+            else -> -1
+        }
+    }
+    return sum
+}
 
 /**
  * Очень сложная
