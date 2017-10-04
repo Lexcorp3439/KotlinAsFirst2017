@@ -108,7 +108,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 }
 
 
-
 /**
  * Простая
  *
@@ -118,7 +117,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a == b && b == c) return 0
     val max = maxOf(a, b, c)
     val min = minOf(a, b, c)
     val other = a + b + c - max - min
