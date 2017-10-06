@@ -2,6 +2,7 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.*
 
 /**
  * Точка на плоскости
@@ -72,14 +73,27 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val sqrCenterX = sqr(center.x - other.center.x)
+        val sqrCenterY = sqr(center.y - other.center.y)
+        val sqrtCenter = Math.sqrt(sqrCenterX + sqrCenterY)
+
+        return if (sqrtCenter > radius + other.radius) sqrtCenter - (radius + other.radius)
+        else 0.0
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        val centerX = sqr(center.x - p.x)
+        val centerY = sqr(center.y - p.y)
+        val fullCenter = Math.sqrt(centerX + centerY)
+
+        return fullCenter <= radius
+    }
 }
 
 /**
@@ -99,7 +113,27 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    var max = 0.0
+    var sqrX:Double
+    var sqrY:Double
+    var point1: Point = points[0]
+    var point2: Point = points[1]
+
+    require(points.size >= 2)
+    for(i in 0 until points.size){
+        for(j in i+1 until points.size) {
+            sqrX = sqr(points[i].x - points[j].x)
+            sqrY = sqr(points[i].y - points[j].y)
+            if (max < sqrt(sqrX + sqrY)) {
+                max = sqrt(sqrX + sqrY)
+                point1 = points[i]
+                point2 = points[j]
+            }
+        }
+    }
+    return Segment(point1,point2)
+}
 
 /**
  * Простая
@@ -107,7 +141,13 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val xX = abs(diameter.begin.x - diameter.end.x)/2 + min(diameter.begin.x, diameter.end.x)
+    val yY = abs(diameter.begin.y - diameter.end.y)/2 + min(diameter.begin.y, diameter.end.y)
+    val rad = Point(xX,yY).distance(Point(diameter.begin.x,diameter.begin.y))
+    return Circle(Point(xX,yY), rad)
+}
+
 
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
@@ -128,7 +168,11 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val x = (other.b / cos(other.angle) - b / cos(angle)) / (tan(angle) - tan(other.angle)) //(sin(angle) / cos(angle) - sin(other.angle) / cos(other.angle))(tan(angle) - tan(other.angle))
+        val y = (x * sin(other.angle) + other.b) / cos(other.angle)
+        return Point(x,y)
+    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -146,15 +190,29 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun Angel (x: Double): Double = when {
+    x < 0 -> x + PI
+    x >= PI -> x - PI
+    else -> x
+}
+
+fun lineBySegment(s: Segment): Line {
+    val angel = atan( (s.begin.y - s.end.y) / (s.begin.x - s.end.x) )
+    return Line(s.begin, Angel(angel))
+}
+
+
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
-
+fun lineByPoints(a: Point, b: Point): Line {
+    val angel = atan( (a.y - b.y) / (a.x - b.x) )
+    val point = Point(a.x - b.x, a.y - b.y)
+    return Line(point, Angel(angel))
+}
 /**
  * Сложная
  *

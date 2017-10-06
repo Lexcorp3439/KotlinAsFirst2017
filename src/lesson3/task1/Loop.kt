@@ -170,12 +170,19 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
+fun NotmalizerX (x:Double): Double{
+    var x1 = x
+    while (abs(x1) > 2 * PI)
+        if (x1 < 0) x1 += 2 * PI else x1-= 2 * PI
+    return x1
+}
+
 fun cos(x: Double, eps: Double): Double {
-    var x1 =x
-    while (abs(x1) > 2 * PI)  {if (x1 < 0) x1 += 2 * PI else x1 -= 2 * PI}
+    val x1 = NotmalizerX(x)
     var a = 1.0
     var b = a
     var i = 0
+
     while (abs(b) >= eps) {
         i++
         b = pow(x1,(2 * i).toDouble() ) / factorial(2 * i)
@@ -220,7 +227,6 @@ fun revert(n: Int): Int {
 fun isPalindrome(n: Int): Boolean {
     var n1 = n
     var all = 0
-
     var ten = 1
     val bool:Boolean
 
@@ -235,7 +241,7 @@ fun isPalindrome(n: Int): Boolean {
         n1 = n
         for (i in 1..all) ten *= 10
         bool = if (num % 2 == 0) {
-           /* (n1 / ten) == (n1.toString().reversed().toInt()/ten) */( (n1 / ten).toString().reversed().toInt() == n1 % ten   )
+        (n1 / ten).toString().reversed().toInt() == n1 % ten
         } else {
             (n1 / (ten * 10)) == (n1.toString().reversed().toInt()/(ten * 10))
         }
@@ -250,32 +256,10 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-/*  var n1:Int = n
-    var all = 0
-    //val charN:String = n.toString() ...
-    val bool:Boolean
-    var b = 0
-
-    if (n<10) bool = false
-  //  else {if (n%(n%10)==0) bool=false
-        else {
-        while (n1 > 0) {
-            n1 /= 10
-            all += 1
-        }
-        n1 = n
-        for (i in 2..all) {
-            if (n1 % 10.0 == (n1 % pow(10.0, i.toDouble())) / pow(10.0, (i - 1).toDouble()))  b+=1
-        }
-        /*if (charN[i]==charN[j]) {bool = false ; break}*/
-       // bool = (k > 0)
-        bool = b != all
-    }
-    return bool
-    */
     var n1 = n
     var found = 0
     val k = n1 % 10
+
     do{
         found = found * 10 + k
         n1 /= 10 //; k = n1%10
@@ -291,24 +275,21 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-
     var k = 1 //счетчик
     var dig:Int  // число в квадрате
     var num = 0    // номер числа
-    var all = 0   //чисел в числе
+    var all:Int  //чисел в числе
     var ret = 0.0 //число, которое нужно вывести
 
     while (num < n) {
         dig = k * k
-        while (dig > 0) {dig /= 10; all += 1}
-        dig = k * k
+        all = dig.toString().length
         for (j in all downTo 1) {
             ret = dig / pow(10.0, j.toDouble() - 1)
             num += 1
             dig %= pow(10.0, j.toDouble() - 1).toInt()
             if (num == n) break
         }
-        all = 0
         k += 1
     }
     return ret.toInt()

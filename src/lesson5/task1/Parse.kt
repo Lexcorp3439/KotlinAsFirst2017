@@ -353,4 +353,47 @@ fun convertToRoman(str: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    val list = MutableList(cells){0}
+    var limitdig = 0
+    var using = cells/2
+    var i = 0
+    var next = false
+    var last = false
+
+    while (limitdig<limit){
+        if (i == commands.length) break else {
+            if (next) while (commands[i-1] != ']') {
+                i++; if (commands[i-1] == ']') next = false
+            }
+            if (last) while (commands[i-1] != '[') {
+                i--; if (commands[i-1] == '[') last = false
+            }
+
+            if (commands[i] == ' ') {
+                limitdig++
+            }
+            if (commands[i] == '>') {
+                using++; limitdig++
+            }
+            if (commands[i] == '<') {
+                using--; limitdig++
+            }
+            if (commands[i] == '+') {
+                list[using]++; limitdig++
+            }
+            if (commands[i] == '-') {
+                list[using]--; limitdig++
+            }
+            if (commands[i] == ']') {
+                limitdig++; if (list[using] != 0) last = true
+            }
+            if (commands[i] == '[') {
+                limitdig++; if (list[using] == 0) next = true
+            }
+
+            i++
+        }
+    }
+    return list
+}

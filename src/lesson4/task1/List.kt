@@ -230,7 +230,6 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    //var string =""
     val result = mutableListOf<Int>()
     var n1 = n
     var j = 2
@@ -243,10 +242,7 @@ fun factorizeToString(n: Int): String {
             }
         j = k
     }
-    //for (i in 0 until result.size ){
-    //}
     return result.joinToString(separator = "*")
-    //return string
 }
 
 /**
