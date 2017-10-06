@@ -219,7 +219,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line = TODO()
-
+//
 /**
  * Средняя
  *
