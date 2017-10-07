@@ -82,6 +82,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     var reply = 0
+
     if (kingX == rookX1 || kingY == rookY1) reply += 1
     if (kingX == rookX2 || kingY == rookY2) reply += 2
     return reply

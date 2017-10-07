@@ -20,12 +20,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    val x1 = number % 100
-    val x2 = number / 100
-    return x1 % 10 + x1 / 10 == x2 % 10 + x2 / 10
-}
+fun isNumberHappy(number: Int): Boolean = NumberOper(number % 100) == NumberOper(number / 100)
 
+ fun NumberOper(x:Int): Int = x % 10 + x / 10
 /**
  * Простая
  *
@@ -57,11 +54,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return if (a * b > r * s && b * c > r * s && a * c > r * s) false else
-        when (a * b <= r * s || b * c <= r * s || a * c <= r * s){
-            (a * b <= r * s && ( (a <= r && b <= s) || (b <= r && a <= s) ) ) -> true
-            (b * c <= r * s && ( (c <= r && b <= s) || (b <= r && c <= s) ) ) -> true
-            (a * c <= r * s && ( (a <= r && c <= s) || (c <= r && a <= s) ) ) -> true
-            else -> false
-        }
+    val min = minOf(a,b,c)
+    val mid = a + b + c - maxOf(a, b, c) - min
+
+    return (mid <= r && min <= s ) || (min <= r && mid <= s)
 }
