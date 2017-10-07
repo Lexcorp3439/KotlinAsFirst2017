@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -30,7 +31,8 @@ class Triangle private constructor(private val points: Set<Point>) {
 
     val c: Point get() = pointList[2]
 
-    constructor(a: Point, b: Point, c: Point): this(linkedSetOf(a, b, c))
+    constructor(a: Point, b: Point, c: Point) : this(linkedSetOf(a, b, c))
+
     /**
      * Пример: полупериметр
      */
@@ -115,14 +117,14 @@ data class Segment(val begin: Point, val end: Point) {
  */
 fun diameter(vararg points: Point): Segment {
     var max = 0.0
-    var sqrX:Double
-    var sqrY:Double
+    var sqrX: Double
+    var sqrY: Double
     var point1: Point = points[0]
     var point2: Point = points[1]
 
     require(points.size >= 2)
-    for(i in 0 until points.size){
-        for(j in i+1 until points.size) {
+    for (i in 0 until points.size) {
+        for (j in i + 1 until points.size) {
             sqrX = sqr(points[i].x - points[j].x)
             sqrY = sqr(points[i].y - points[j].y)
             if (max < sqrt(sqrX + sqrY)) {
@@ -132,7 +134,7 @@ fun diameter(vararg points: Point): Segment {
             }
         }
     }
-    return Segment(point1,point2)
+    return Segment(point1, point2)
 }
 
 /**
@@ -142,10 +144,10 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val xX = abs(diameter.begin.x - diameter.end.x)/2 + min(diameter.begin.x, diameter.end.x)
-    val yY = abs(diameter.begin.y - diameter.end.y)/2 + min(diameter.begin.y, diameter.end.y)
-    val rad = Point(xX,yY).distance(Point(diameter.begin.x,diameter.begin.y))
-    return Circle(Point(xX,yY), rad)
+    val xX = abs(diameter.begin.x - diameter.end.x) / 2 + min(diameter.begin.x, diameter.end.x)
+    val yY = abs(diameter.begin.y - diameter.end.y) / 2 + min(diameter.begin.y, diameter.end.y)
+    val rad = Point(xX, yY).distance(Point(diameter.begin.x, diameter.begin.y))
+    return Circle(Point(xX, yY), rad)
 }
 
 
@@ -160,7 +162,7 @@ class Line private constructor(val b: Double, val angle: Double) {
         assert(angle >= 0 && angle < Math.PI) { "Incorrect line angle: $angle" }
     }
 
-    constructor(point: Point, angle: Double): this(point.y * Math.cos(angle) - point.x * Math.sin(angle), angle)
+    constructor(point: Point, angle: Double) : this(point.y * Math.cos(angle) - point.x * Math.sin(angle), angle)
 
     /**
      * Средняя
@@ -171,7 +173,7 @@ class Line private constructor(val b: Double, val angle: Double) {
     fun crossPoint(other: Line): Point {
         val x = (other.b / cos(other.angle) - b / cos(angle)) / (tan(angle) - tan(other.angle)) //(sin(angle) / cos(angle) - sin(other.angle) / cos(other.angle))(tan(angle) - tan(other.angle))
         val y = (x * sin(other.angle) + other.b) / cos(other.angle)
-        return Point(x,y)
+        return Point(x, y)
     }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
@@ -190,17 +192,16 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun Angel (x: Double): Double = when {
+fun Angel(x: Double): Double = when {
     x < 0 -> x + PI
     x >= PI -> x - PI
     else -> x
 }
 
 fun lineBySegment(s: Segment): Line {
-    val angel = atan( (s.begin.y - s.end.y) / (s.begin.x - s.end.x) )
+    val angel = atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
     return Line(s.begin, Angel(angel))
 }
-
 
 
 /**
@@ -208,17 +209,23 @@ fun lineBySegment(s: Segment): Line {
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line {
-    val angel = atan( (a.y - b.y) / (a.x - b.x) )
-    val point = Point(a.x - b.x, a.y - b.y)
-    return Line(point, Angel(angel))
-}
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+// Как-то слишком легко, может попробовать другим способом? Или так сойдет?
+
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val x = a.x - b.x
+    val y = a.y - b.y
+    val angel = atan(y / x)
+    val centerX = abs(a.x - b.x)/2 + min(a.x, b.x)
+    val centerY = abs(a.y - b.y)/2 + min(a.y, b.y)
+
+    return Line(Point(centerX,centerY),  PI/2 - Angel(angel))
+}
 //
 /**
  * Средняя
