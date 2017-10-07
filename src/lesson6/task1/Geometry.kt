@@ -200,6 +200,7 @@ fun Angel(x: Double): Double = when {
 
 fun lineBySegment(s: Segment): Line {
     val angel = atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
+
     return Line(s.begin, Angel(angel))
 }
 
@@ -221,10 +222,11 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     val x = a.x - b.x
     val y = a.y - b.y
     val angel = atan(y / x)
-    val centerX = abs(a.x - b.x)/2 + min(a.x, b.x)
-    val centerY = abs(a.y - b.y)/2 + min(a.y, b.y)
+    val centerX = (a.x + b.x)/2
+    val centerY = (a.y + b.y)/2
+    val center = Point(centerX, centerY)
 
-    return Line(Point(centerX,centerY),  PI/2 - Angel(angel))
+    return Line(center,  PI/2 - Angel(angel))
 }
 //
 /**
