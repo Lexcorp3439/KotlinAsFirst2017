@@ -21,7 +21,13 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        var str = ""
+        val list = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+
+        if (inside()) str += list[column - 1] + row.toString()
+        return str
+    }
 }
 
 /**
@@ -31,7 +37,19 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+    val list1 = listOf('1', '2', '3', '4', '5', '6', '7', '8')
+    var column = 0
+    var row = 0
+    for ((index,element) in list.withIndex())
+        if (element == notation[0]) column = index + 1
+    for ((index,element) in list1.withIndex())
+        if (element == notation[1]) row = index + 1
+
+    require (!(Square(column, notation[1].toInt()).inside()))
+    return Square(column, row)
+}
 
 /**
  * Простая
@@ -56,7 +74,14 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    var go = 0
+        if (start.column != end.column) go += 1
+        if (start.row != end.row) go += 1
+
+    require(start.inside() && end.inside())
+    return go
+}
 
 /**
  * Средняя
