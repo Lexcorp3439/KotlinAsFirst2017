@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task2
 
+import java.lang.Math.abs
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -39,16 +41,13 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
-    val list1 = listOf('1', '2', '3', '4', '5', '6', '7', '8')
     var column = 0
-    var row = 0
+    val digit = notation[1] - '0'
     for ((index,element) in list.withIndex())
         if (element == notation[0]) column = index + 1
-    for ((index,element) in list1.withIndex())
-        if (element == notation[1]) row = index + 1
 
-    require (!(Square(column, notation[1].toInt()).inside()))
-    return Square(column, row)
+    require (Square(column, digit).inside())
+    return Square(column, digit)
 }
 
 /**
@@ -97,7 +96,13 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    val list = mutableListOf<Square>(start)
+
+    if (rookMoveNumber(start, end) == 2) list.add(Square(end.column,start.row))
+    if (rookMoveNumber(start, end) != 0) list.add(end)
+    return list
+}
 
 /**
  * Простая
@@ -122,7 +127,16 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    var go = 0
+    require(start.inside() && end.inside())
+    if ((start.column + start.row)%2 != (end.column + end.row)%2) return -1
+    else {
+        if (start != end) go += 1
+        if (abs(start.column - end.column) != abs(start.row - end.row)) go += 1
+    }
+    return go
+}
 
 /**
  * Сложная

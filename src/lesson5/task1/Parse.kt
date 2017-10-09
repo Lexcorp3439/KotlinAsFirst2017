@@ -246,7 +246,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-val stringRegex = Regex("^((\\S)+ \\d+\\.\\d+;? )*((\\S)+ \\d+\\.\\d+)$")
+val stringRegex = Regex("^(\\S+ \\d+\\.\\d+;? )*(\\S+ \\d+\\.\\d+)$")
 
 fun mostExpensive(description: String): String {
     var max = 0.0
@@ -353,7 +353,7 @@ fun convertToRoman(str: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO() /*{
     val list = MutableList(cells){0}
     var limitdig = 0
     var using = cells/2
@@ -397,3 +397,4 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     return list
 }
+*/
