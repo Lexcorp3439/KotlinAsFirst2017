@@ -143,7 +143,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val end = round(sqrt(n.toDouble()))
     val range = (m..n)
 
-    for (i in 1..end) if (i*i in range) bool = true
+    for (i in 0..end) if (i*i in range) bool = true
     return bool
 }
 
@@ -155,7 +155,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    val sqrX = notmalize(x) * notmalize(x)
+    val sqrX = notmalize(x)
     var ret = sqrX
     var i = 0
     var digit = 2
@@ -163,7 +163,7 @@ fun sin(x: Double, eps: Double): Double {
 
     while (abs(divider) >= eps) {
         i++
-        divider *= sqrX / (digit * (digit + 1))
+        divider *= sqrX * sqrX / (digit * (digit + 1))
         if (i % 2 == 1) ret -= divider else ret += divider
         digit += 2
     }

@@ -39,17 +39,17 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
+val notationRegex = Regex("^[a-h][1-8]$")
+
 fun square(notation: String): Square {
     val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
     var column = 0
-    val digit: Int
+    require(notation matches notationRegex)
+    val digit = notation[1] - '0'
 
-    if (notation == ""){column = -1; digit = -1}
-    else {
-         digit = notation[1] - '0'
-        for ((index, element) in list.withIndex())
-            if (element == notation[0]) column = index + 1
-    }
+    for ((index, element) in list.withIndex())
+        if (element == notation[0]) column = index + 1
+
     require (Square(column, digit).inside())
     return Square(column, digit)
 }
@@ -204,7 +204,10 @@ fun centralMove (start: Square, end: Square) : Square {
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = Math.max(abs(start.column - end.column), abs(start.row - end.row))
+fun kingMoveNumber(start: Square, end: Square): Int {
+    require(start.inside() && end.inside())
+    return Math.max(abs(start.column - end.column), abs(start.row - end.row))
+}
 
 /**
  * Сложная
