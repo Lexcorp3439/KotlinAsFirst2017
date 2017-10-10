@@ -3,8 +3,7 @@ package lesson2.task2
 
 
 import lesson1.task1.sqr
-import java.lang.Math.abs
-import java.lang.Math.sqrt
+import java.lang.Math.*
 
 /**
  * Пример
@@ -20,9 +19,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = NumberOper(number % 100) == NumberOper(number / 100)
+fun isNumberHappy(number: Int): Boolean = numberOper(number % 100) == numberOper(number / 100)
 
- fun NumberOper(x:Int): Int = x % 10 + x / 10
+ fun numberOper(x:Int): Int = x % 10 + x / 10
 /**
  * Простая
  *
@@ -41,7 +40,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = r1 <= r2 - sqrt(sqr(x1 - x2) + sqr(y1 - y2))
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        r1 <= r2 - sqrt(sqr(x1 - x2) + sqr(y1 - y2))
 
 
 /**
@@ -57,5 +57,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val min = minOf(a,b,c)
     val mid = a + b + c - maxOf(a, b, c) - min
 
-    return (mid <= r && min <= s ) || (min <= r && mid <= s)
+    return mid <= max(r,s) && min <= min(r, s)
 }

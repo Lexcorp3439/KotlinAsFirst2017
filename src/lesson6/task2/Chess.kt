@@ -42,10 +42,14 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
     var column = 0
-    val digit = notation[1] - '0'
-    for ((index,element) in list.withIndex())
-        if (element == notation[0]) column = index + 1
+    val digit: Int
 
+    if (notation == ""){column = -1; digit = -1}
+    else {
+         digit = notation[1] - '0'
+        for ((index, element) in list.withIndex())
+            if (element == notation[0]) column = index + 1
+    }
     require (Square(column, digit).inside())
     return Square(column, digit)
 }
@@ -130,7 +134,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
 fun bishopMoveNumber(start: Square, end: Square): Int {
     var go = 0
     require(start.inside() && end.inside())
-    if ((start.column + start.row)%2 != (end.column + end.row)%2) return -1
+    if (can(start,end)) return -1
     else {
         if (start != end) go += 1
         if (abs(start.column - end.column) != abs(start.row - end.row)) go += 1
@@ -138,6 +142,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     return go
 }
 
+fun can(start: Square, end: Square): Boolean = (start.column + start.row)%2 != (end.column + end.row)%2
 /**
  * Сложная
  *
@@ -156,8 +161,29 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    val list = mutableListOf<Square>()
 
+    if (can(start, end)) return list
+    else list.add(start)
+    if (start != end) {
+        if (abs(start.column - end.column) != abs(start.row - end.row)) list.add(centralMove(start, end))
+        list.add(end)
+    }
+    return list
+}
+
+fun centralMove (start: Square, end: Square) : Square {
+    val delta = start.column - start.row
+    val delta1 = end.column - end.row
+    var minimum: Int
+    val row = (start.row - start.column + end.column + end.row) / 2
+
+    minimum = if (abs(delta) < abs(delta1) && delta != 0) delta else delta1
+    minimum = if (abs(delta1) < abs(delta) && delta1 != 0) delta1 else delta
+    val column = minimum + row
+    return Square(column, row)
+}
 /**
  * Средняя
  *
@@ -178,7 +204,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int = Math.max(abs(start.column - end.column), abs(start.row - end.row))
 
 /**
  * Сложная
