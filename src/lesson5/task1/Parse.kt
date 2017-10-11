@@ -188,7 +188,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-val megaRegex = Regex("\\d+([+-]\\d+)*")
+val megaRegex = Regex("(\\d+)?([+-]\\d+)*")
 
 fun plusMinus(expression: String): Int {
     val str = expression.split(" ")
@@ -256,15 +256,14 @@ fun mostExpensive(description: String): String {
     var maxNum = 1
     val str = description.split(" ", ";")
 
-    //return if (description matches stringRegex) {
-    for (i in 1 until str.size  step 3) {
+    for (i in 1 until str.size - 1  step 3) {
         if (str[i] matches stringRegex && str[i + 1] matches stringRegex1) return ""
         if (str[i].toDouble() > max) {
             max = str[i].toDouble()
             maxNum = i
         }
-        // } else ""
     }
+    if (description != "" && max < str[str.size - 1].toDouble()) maxNum = str.size - 1
     return str[maxNum - 1]
 }
 
