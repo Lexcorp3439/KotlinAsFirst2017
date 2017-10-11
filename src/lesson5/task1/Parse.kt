@@ -257,7 +257,7 @@ fun mostExpensive(description: String): String {
     val str = description.split(" ", ";")
 
     //return if (description matches stringRegex) {
-    for (i in 1 until str.size - 1 step 3) {
+    for (i in 1 until str.size  step 3) {
         if (str[i] matches stringRegex && str[i + 1] matches stringRegex1) return ""
         if (str[i].toDouble() > max) {
             max = str[i].toDouble()
