@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import java.lang.Math.*
 
 /**
@@ -139,13 +140,18 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val end = round(sqrt(n.toDouble()))
-    val range = (m..n)
-
-    for (i in 0..end)
-        if (i * i in range) return true
+    for (i in m..n) {
+        val ceil = floor(sqrt(i.toDouble()))
+        if (sqr(ceil) >= m) return true
+    }
     return false
 }
+    /*
+    val ceilM = ceil(sqrt(m.toDouble()))
+    val floorN = floor(sqrt(n.toDouble()))
+
+    return ceilM < floorN */
+
 
 /**
  * Средняя
