@@ -4,6 +4,7 @@ package lesson3.task1
 
 import lesson1.task1.sqr
 import java.lang.Math.*
+import java.sql.SQLRecoverableException
 
 /**
  * Пример
@@ -68,10 +69,10 @@ fun digitNumber(n: Int): Int {
     var x = n / 10
     var result = 1
 
-        while (x != 0) {
-            x /= 10
-            result += 1
-        }
+    while (x != 0) {
+        x /= 10
+        result += 1
+    }
     return result
 }
 
@@ -140,17 +141,19 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
+
     for (k in m..n) {
         val floorK = floor(sqrt(k.toDouble()))
         if (sqr(floorK) >= m) return true
     }
     return false
 }
-    /*
-    val ceilM = ceil(sqrt(m.toDouble()))
-    val floorN = floor(sqrt(n.toDouble()))
+/*
+    val ceilM = ceil(sqrt(n.toDouble()))
+    val floorN = floor(sqrt(m.toDouble()))
 
     return ceilM < floorN */
+
 
 
 /**
@@ -218,9 +221,8 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     var new = 0
     var n1 = n
-    val all = n.toString().length
 
-    for (i in 0 until all) {
+    while (n1 > 0) {
         new = new * 10 + n1 % 10
         n1 /= 10
     }
@@ -237,10 +239,10 @@ fun revert(n: Int): Int {
 fun isPalindrome(n: Int): Boolean {
     val all = n.toString().length / 2
     val ten = pow(10.0, all.toDouble()).toInt()
-    val nReversed = (n / 10).toString().reversed().toInt()
+    val nPart = n % ten
+    val nReversed = (n / ten).toString().reversed().toInt() % ten
 
-    return if (abs(n) < 10) true
-    else n % ten == nReversed % ten
+    return nPart == nReversed
 }
 
 /**
@@ -250,14 +252,12 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var n1 = n
+    val size = n.toString().length
     var found = 0
     val firstDig = n % 10
 
-    while (n1 > 0) {
+    for (i in 0 until size)
         found = found * 10 + firstDig
-        n1 /= 10
-    }
     return (found != n)
 }
 
@@ -269,26 +269,19 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var k = 1
-    var sqr: Int
-    var num = 0
-    var size: Int
-    var ret = 0.0
+    var k = 2
+    var num = 1
 
     while (num < n) {
-        sqr = k * k
-        size = sqr.toString().length
-        var ten = pow(10.0, (size - 1).toDouble()).toInt()
+        val sqr = (k * k).toString()
+        val size = sqr.length
         for (i in 0 until size) {
-            ret = sqr / ten.toDouble()
             num++
-            sqr %= ten
-            ten /= 10
-            if (num == n) break
+            if (num == n) return sqr[i] - '0'
         }
-        k += 1
+        k++
     }
-    return ret.toInt()
+    return 1
 }
 
 /**
@@ -302,23 +295,16 @@ fun fibSequenceDigit(n: Int): Int {
     var finNext = 1
     var fibNow = 1
     var num = 2
-    var ret = 0.0
 
-    if (n in 1..2) return 1 else
-        while (num < n) {
-            var fib = finNext + fibNow
-            val size = fib.toString().length
-            var ten = pow(10.0, (size - 1).toDouble()).toInt()
-            fibNow = finNext
-            finNext = fib
-            for (i in 0 until size) {
-                ret = fib / ten.toDouble()
-                num++
-                fib %= ten
-                ten /= 10
-                if (num == n) break
-            }
-
+    while (num < n) {
+        val fib = (finNext + fibNow).toString()
+        val size = fib.length
+        for (i in 0 until size) {
+            num++
+            if (num == n) return fib[i] - '0'
         }
-    return ret.toInt()
+        fibNow = finNext
+        finNext = fib.toInt()
+    }
+    return 1
 }
