@@ -203,6 +203,7 @@ class Tests {
         assertEquals(1000, decimalFromString("2ec", 19))
         assertEquals(35, decimalFromString("z", 36))
         assertEquals(Int.MAX_VALUE, decimalFromString("a02220281", 11))
+        assertEquals(400129026, decimalFromString("n6rcia", 28))
     }
 
     @Test
@@ -213,6 +214,7 @@ class Tests {
         assertEquals("MCMLXXVIII", roman(1978))
         assertEquals("DCXCIV", roman(694))
         assertEquals("XLIX", roman(49))
+        assertEquals("MMMMMMMMMMDCCXLVI", roman(10746))
     }
 
     @Test
