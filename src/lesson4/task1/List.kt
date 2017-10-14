@@ -311,7 +311,7 @@ fun decimalFromString(str: String, base: Int): Int {
     return result
 }
 
-fun convertOut(x: Char): Int = x - 'a' - 10
+fun convertOut(x: Char): Int = x - 'a' + 10
 
 /**
  * Сложная

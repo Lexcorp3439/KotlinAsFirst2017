@@ -135,12 +135,12 @@ private val simbol = Regex("\\d+")
 
 fun flattenPhoneNumber(phone: String): String {
     var plus = ""
+    val str = phone.split(" ", "-", "+", "(", ")").joinToString("")
 
     if (phone == "") return ""
     if (phone.first() == '+') plus = "+"
-    val str = phone.split(" ", "-", "+", "(", ")")
-    return if (str.joinToString("") matches simbol) plus + str.joinToString("")
-    else ""
+    if (str matches simbol ) return plus + str
+    return ""
 }
 
 /**
@@ -159,11 +159,9 @@ fun bestLongJump(jumps: String): Int {
     var max = 0
     val str = jumps.split(" ", "-", "%")
 
-    if (str.joinToString("") matches regexDigit)
-        for (part in str) {
-            if (part != "" && part.toInt() > max) max = part.toInt()
-        }
-    else return -1
+    if (!(str.joinToString("") matches regexDigit)) return -1
+    for (part in str)
+        if (part != "" && part.toInt() > max) max = part.toInt()
     return max
 }
 
@@ -188,7 +186,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-val megaRegex = Regex("(\\d+)?([+-]\\d+)*")
+val megaRegex = Regex("(\\d+)?([+-]\\d+)+")
 
 fun plusMinus(expression: String): Int {
     val str = expression.split(" ")
@@ -246,7 +244,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-//val stringRegex = Regex("^(\\S+ \\d+\\.\\d+;? )*(\\S+ \\d+\\.\\d+)$")
+
 val stringRegex = Regex("\\d+")
 val stringRegex1 = Regex(" ")
 
