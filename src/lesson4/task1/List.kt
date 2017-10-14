@@ -321,38 +321,25 @@ fun convertOut(x: Char): Int = x - 'a' - 10
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+val romanList1 = listOf("C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
+val romanList2 = listOf("X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
+val romanList3 = listOf("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
+val M = "M"
+
 fun roman(n: Int): String {
-    val I = "I"
-    val V = "V"
-    val X = "X"
-    val L = "L"
-    val C = "C"
-    val D = "D"
-    val M = "M"
-    var all = n.toString().length
     var n1 = n
-    var string = ""
-    var count = pow(10.0, (all - 1).toDouble()).toInt()
-    if (all >= 4) {
-        for (i in 1..n1 / 1000) string += M
-        count = 1000; n1 %= count; count /= 10; all = 3
+    val string = mutableListOf<String>()
+
+    while (n1 >= 1000) {
+        n1 -= 1000
+        string.add(M)
     }
-    if (all == 3) {
-        when (n1 / count) { 1 -> string += C; 2 -> string += C + C; 3 -> string += C + C + C; 4 -> string += C + D; 5 -> string += D; 6 -> string += D + C; 7 -> string += D + C + C; 8 -> string += D + C + C + C; 9 -> string += C + M
-        }
-        n1 %= count; count /= 10; all -= 1
-    }
-    if (all == 2) {
-        when (n1 / count) { 1 -> string += X; 2 -> string += X + X; 3 -> string += X + X + X; 4 -> string += X + L; 5 -> string += L; 6 -> string += L + X; 7 -> string += L + X + X; 8 -> string += L + X + X + X; 9 -> string += X + C
-        }
-        n1 %= count; count /= 10; all -= 1
-    }
-    if (all == 1) {
-        when (n1 / count) { 1 -> string += I; 2 -> string += I + I; 3 -> string += I + I + I; 4 -> string += I + V; 5 -> string += V; 6 -> string += V + I; 7 -> string += V + I + I; 8 -> string += V + I + I + I; 9 -> string += I + X
-        }
-    }
-    return string
+    if (n1 / 100 != 0) string.add(romanList1[n1 / 100 - 1])
+    if (n / 10 % 10  != 0) string.add(romanList2[n / 10 % 10 - 1])
+    if (n % 10 != 0) string.add(romanList3[n % 10 - 1])
+    return string.joinToString("")
 }
+
 
 /**
  * Очень сложная
@@ -362,8 +349,6 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    //val all = n.toString().length
-    //var result = mutableListOf<String>()
     var result = listOf<String>()
     val result1:List<String>
     if (n > 999)  {
@@ -372,47 +357,6 @@ fun russian(n: Int): String {
     }
     result += strNumber1( n % 1000, 1)
     return result.joinToString(" ")
-}
-
-fun strNumber(count: Int, digit: Int, mod: Int): String {
-    var string = ""
-    var num = count
-    var digit1 = digit
-    if (num == 3) {
-        when (digit1 / 100) {
-            1 -> string += "сто "; 2 -> string += "двести "; 3 -> string += "триста "; 4 -> string += "четыреста "; 5 -> string += "пятьсот "
-            6 -> string += "шестьсот "; 7 -> string += "семьсот "; 8 -> string += "восемьсот "; 9 -> string += "девятьсот "
-        }
-        num -= 1; digit1 %= 100 //; if (digit1 == 0) string+="тысяч "
-    }
-    if ((digit1 >= 20 || digit1 <= 9) && digit1 > 0) {
-        if (num == 2) {
-            when (digit1 / 10) {
-                2 -> string += "двадцать "; 3 -> string += "тридцать "; 4 -> string += "сорок "; 5 -> string += "пятьдесят "
-                6 -> string += "шестьдесят "; 7 -> string += "семьдесят "; 8 -> string += "восемьдесят "; 9 -> string += "девяносто "
-            }
-            num -= 1; digit1 %= 10; if (digit1 == 0 && mod == 2) string += "тысяч "
-        }
-        if (num == 1 && mod == 2) {
-            when (digit1) { 1 -> string += "одна тысяча "; 2 -> string += "две тысячи "
-                5 -> string += "пять тысяч "; 3 -> string += "три тысячи "; 4 -> string += "четыре тысячи "
-                6 -> string += "шесть тысяч "; 7 -> string += "семь тысяч "; 8 -> string += "восемь тысяч "; 9 -> string += "девять тысяч "
-            }
-        } else
-            if (num == 1 && mod == 1) {
-                when (digit1) { 1 -> string += "один"; 2 -> string += "два"
-                    5 -> string += "пять "; 3 -> string += "три "; 4 -> string += "четыре "
-                    6 -> string += "шесть "; 7 -> string += "семь "; 8 -> string += "восемь "; 9 -> string += "девять "
-                }
-            }
-    } else {
-        when (digit1) {
-            10 -> string += "десять "; 11 -> string += "одиннадцать "; 12 -> string += "двенадцать "; 13 -> string += "тринадцать "; 14 -> string += "четырнадцать "; 15 -> string += "пятнадцать "
-            16 -> string += "шестнадцать "; 17 -> string += "семнадцать "; 18 -> string += "восемнадцать "; 19 -> string += "девятнадцать "
-        }
-        if (mod == 2) string += "тысяч "
-    }
-    return string
 }
 
 
@@ -425,30 +369,25 @@ val units3 = listOf("один", "два")
 
 fun strNumber1 (digit: Int, mod: Int): MutableList<String> {
     val result = mutableListOf<String>()
-    var dig = digit
 
-    if (dig / 100 > 0) {
-        result.add(hundreds[digit / 100 - 1])
-        dig %= 100
-        if (mod == 2 ) result.add("тысяч")
-    }
+    if (digit / 100 > 0) result.add(hundreds[digit / 100 - 1])
 
-    if (dig in 10..19) {
-        result.add(dozens1[dig % 10])
+    if (digit % 100 / 10 > 1) result.add(dozens2[digit % 100 / 10 - 2])
+
+    if (digit % 100 in 10..19) {
+        result.add(dozens1[digit % 10])
         if (mod == 2) result.add("тысяч")
         return result
     }
 
-    if (dig / 10 > 1){
-        result.add(dozens2[dig / 10 - 2])
-        dig %= 10
-    }
+    val dig = digit % 10
 
     if (dig > 2) result.add(units1[dig - 3])
-    else when (mod) {
-        2 -> result.add(units2[dig - 1])
-        else -> result.add(units3[dig - 1])
-    }
+    else
+        if (dig != 0) when (mod) {
+            2 -> result.add(units2[dig - 1])
+            1 -> result.add(units3[dig - 1])
+        }
 
     if (mod == 2)
         when {
@@ -458,6 +397,6 @@ fun strNumber1 (digit: Int, mod: Int): MutableList<String> {
             result.last() == "четыре" -> result.add("тысячи")
             else -> result.add("тысяч")
         }
-    return result
 
+    return result
 }
