@@ -141,20 +141,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-
     for (k in m..n) {
         val floorK = floor(sqrt(k.toDouble()))
         if (sqr(floorK) >= m) return true
     }
     return false
 }
-/*
-    val ceilM = ceil(sqrt(n.toDouble()))
-    val floorN = floor(sqrt(m.toDouble()))
-
-    return ceilM < floorN */
-
-
 
 /**
  * Средняя
@@ -164,16 +156,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    val sqrX = notmalize(x)
+    val sqrX = normalize(x)
     var reply = sqrX
-    var sign = 0
     var digit = 2
     var divider = sqrX
 
     while (abs(divider) >= eps) {
-        sign++
         divider *= sqrX * sqrX / (digit * (digit + 1))
-        if (sign % 2 == 1) reply -= divider
+        if (digit / 2 % 2 == 1) reply -= divider
         else reply += divider
         digit += 2
     }
@@ -187,7 +177,7 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun notmalize(x: Double): Double {
+fun normalize(x: Double): Double {
     var x1 = x
 
     while (abs(x1) > 2 * PI)
@@ -196,7 +186,7 @@ fun notmalize(x: Double): Double {
 }
 
 fun cos(x: Double, eps: Double): Double {
-    val sqrX = notmalize(x) * notmalize(x)
+    val sqrX = sqr(normalize(x))
     var reply = 1.0
     var divider = reply
     var i = 0
@@ -237,10 +227,10 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    val all = n.toString().length / 2
+    val all = digitNumber(n) / 2
     val ten = pow(10.0, all.toDouble()).toInt()
     val nPart = n % ten
-    val nReversed = (n / ten).toString().reversed().toInt() % ten
+    val nReversed = revert(n / ten) % ten
 
     return nPart == nReversed
 }
@@ -252,13 +242,13 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    val size = n.toString().length
+    val size = digitNumber(n)
     var found = 0
     val firstDig = n % 10
 
     for (i in 0 until size)
         found = found * 10 + firstDig
-    return (found != n)
+    return found != n
 }
 
 /**
@@ -275,10 +265,8 @@ fun squareSequenceDigit(n: Int): Int {
     while (num < n) {
         val sqr = (k * k).toString()
         val size = sqr.length
-        for (i in 0 until size) {
-            num++
-            if (num == n) return sqr[i] - '0'
-        }
+        if (num + size >= n) return sqr[n - num - 1] - '0'
+        else num += size
         k++
     }
     return 1
@@ -299,10 +287,8 @@ fun fibSequenceDigit(n: Int): Int {
     while (num < n) {
         val fib = (finNext + fibNow).toString()
         val size = fib.length
-        for (i in 0 until size) {
-            num++
-            if (num == n) return fib[i] - '0'
-        }
+        if (num + size >= n) return fib[n - num - 1] - '0'
+        else num += size
         fibNow = finNext
         finNext = fib.toInt()
     }

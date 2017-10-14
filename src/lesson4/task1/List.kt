@@ -151,7 +151,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var C = 0.0 //Переменная с заглавной буквы по условию
+    var C = 0.0
 
     for (i in 0 until a.size)
         C += a[i] * b[i]
@@ -170,8 +170,8 @@ fun polynom(p: List<Double>, x: Double): Double {
     var pX = 0.0
     var powX = 1.0
 
-    for (i in 0 until p.size) {
-        pX += p[i] * powX
+    for (element in p) {
+        pX += element * powX
         powX *= x
     }
     return pX
@@ -268,11 +268,8 @@ fun convertToString(n: Int, base: Int): String {
     return result.joinToString(separator = "").reversed()
 }
 
-fun convertIn(x: Int): String {
-    val list = listOf("a","b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-            "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
-    return list[x - 10]
-}
+fun convertIn(x: Int): String = (x + 'a'.toInt() - 10).toChar().toString()
+
 
 /**
  * Средняя
@@ -314,13 +311,7 @@ fun decimalFromString(str: String, base: Int): Int {
     return result
 }
 
-fun convertOut(x: Char): Int  {
-    val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-            'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y')
-    for (element in list)
-        if (x == element) return list.indexOf(element) + 10
-    return 35
-}
+fun convertOut(x: Char): Int = x - 'a' - 10
 
 /**
  * Сложная
@@ -371,11 +362,16 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    val all = n.toString().length
-    var result = ""
-    result += if (all <= 3) strNumber(all, n, 1) // mod -- показатель порядка. к примеру для числа 123456 "123" - второй порядок (mod 2) , а 456 - первый порядок (mod 1)
-    else strNumber(all - 3, n / 1000, 2) + strNumber(3, n % 1000, 1)
-    return result.trim()
+    //val all = n.toString().length
+    //var result = mutableListOf<String>()
+    var result = listOf<String>()
+    val result1:List<String>
+    if (n > 999)  {
+        result1 = strNumber1( n / 1000, 2)
+        result += result1
+    }
+    result += strNumber1( n % 1000, 1)
+    return result.joinToString(" ")
 }
 
 fun strNumber(count: Int, digit: Int, mod: Int): String {
@@ -417,4 +413,51 @@ fun strNumber(count: Int, digit: Int, mod: Int): String {
         if (mod == 2) string += "тысяч "
     }
     return string
+}
+
+
+val hundreds = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+val dozens1  = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+val dozens2  = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+val units1 = listOf("три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val units2 = listOf("одна", "две")
+val units3 = listOf("один", "два")
+
+fun strNumber1 (digit: Int, mod: Int): MutableList<String> {
+    val result = mutableListOf<String>()
+    var dig = digit
+
+    if (dig / 100 > 0) {
+        result.add(hundreds[digit / 100 - 1])
+        dig %= 100
+        if (mod == 2 ) result.add("тысяч")
+    }
+
+    if (dig in 10..19) {
+        result.add(dozens1[dig % 10])
+        if (mod == 2) result.add("тысяч")
+        return result
+    }
+
+    if (dig / 10 > 1){
+        result.add(dozens2[dig / 10 - 2])
+        dig %= 10
+    }
+
+    if (dig > 2) result.add(units1[dig - 3])
+    else when (mod) {
+        2 -> result.add(units2[dig - 1])
+        else -> result.add(units3[dig - 1])
+    }
+
+    if (mod == 2)
+        when {
+            result.last() == "одна" -> result.add("тысяча")
+            result.last() == "две" -> result.add("тысячи")
+            result.last() == "три" -> result.add("тысячи")
+            result.last() == "четыре" -> result.add("тысячи")
+            else -> result.add("тысяч")
+        }
+    return result
+
 }
