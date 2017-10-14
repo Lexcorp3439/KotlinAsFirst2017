@@ -113,11 +113,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var absV = 0.0
 
-    if (v.isEmpty())
-    else
-        for (i in 0 until v.size) {
-            absV += sqr(v[i])
-        }
+    for (i in 0 until v.size)
+        absV += sqr(v[i])
     return sqrt(absV)
 }
 
@@ -126,7 +123,9 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isNotEmpty()) list.sum() / list.size else 0.0
+fun mean(list: List<Double>): Double =
+        if (list.isNotEmpty()) list.sum() / list.size
+        else 0.0
 
 /**
  * Средняя
@@ -137,12 +136,10 @@ fun mean(list: List<Double>): Double = if (list.isNotEmpty()) list.sum() / list.
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val Center = list.sum() / list.size
+    val center = list.sum() / list.size
 
-    for (i in 0 until list.size) {
-        val element = list[i]
-        list[i] = element - Center
-    }
+    for (i in 0 until list.size)
+        list[i] -= center
     return list
 }
 
@@ -154,13 +151,10 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var C = 0.0
+    var C = 0.0 //Переменная с заглавной буквы по условию
 
-    if (a.isEmpty() || b.isEmpty())
-    else {
-        for (i in 0 until a.size)
-            C += a[i] * b[i]
-    }
+    for (i in 0 until a.size)
+        C += a[i] * b[i]
     return C
 }
 
@@ -173,11 +167,14 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var Px = 0.0
+    var pX = 0.0
+    var powX = x
 
-    for (i in 0 until p.size)
-        Px += p[i] * pow(x, i.toDouble())
-    return Px
+    for (i in 0 until p.size) {
+        pX += p[i] * powX
+        powX *= x
+    }
+    return pX
 }
 
 /**
@@ -210,15 +207,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n1 = n
-    var j = 2
-    var k = 0
+    var multi = 2
 
     while (n1 > 1) {
-        for (i in j..n)
-            if (n1 % i == 0) {
-                result.add(i); n1 /= i;k = i; break
-            }
-        j = k
+        if (n1 % multi == 0) {
+            result.add(multi)
+            n1 /= multi
+        } else multi++
     }
     return result
 }
@@ -229,21 +224,8 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    val result = mutableListOf<Int>()
-    var n1 = n
-    var j = 2
-    var k = 0
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
-    while (n1 > 1) {
-        for (i in j..n)
-            if (n1 % i == 0) {
-                result.add(i); n1 /= i; k = i; break
-            }
-        j = k
-    }
-    return result.joinToString(separator = "*")
-}
 
 /**
  * Средняя
@@ -255,21 +237,12 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n1 = n
-    var nDiv: Int
 
-    while (n1 >= base) {
-        nDiv = n1 / base
-        result.add(n1 - nDiv * base)
-        n1 = nDiv
+    while (n1 > 0) {
+        result.add(n1 % base)
+        n1 /= base
     }
-    result.add(n1)
-    for (i in 0 until result.size / 2) {
-        val x = result[i]
-        result[i] = result[(result.size - 1) - i]
-        result[(result.size - 1) - i] = x
-    }
-    return result
-
+    return result.reversed()
 }
 
 /**
@@ -283,29 +256,20 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val result = mutableListOf<String>()
     var n1 = n
-    var nDiv: Int
 
-    while (n1 >= base) {
-        nDiv = n1 / base
-        if (n1 - nDiv * base < 10) result.add((n1 - nDiv * base).toString())
-        else result.add(con(n1 - nDiv * base))
-        n1 = nDiv
+    while (n1 > 0) {
+        val nBase = n1 % base
+        if (nBase < 10) result.add(nBase.toString())
+        else result.add(convertIn(nBase))
+        n1 /= base
     }
-    if (n1 < 10) result.add(n1.toString()) else result.add(con(n1))
-    for (i in 0 until result.size / 2) {
-        val x = result[i]
-        result[i] = result[(result.size - 1) - i]
-        result[(result.size - 1) - i] = x
-    }
-    return result.joinToString(separator = "")
+    return result.joinToString(separator = "").reversed()
 }
 
-fun con(x: Int): String = when (x) {
-    10 -> "a"; 11 -> "b"; 12 -> "c"; 13 -> "d"; 14 -> "e"; 15 -> "f"; 16 -> "g"; 17 -> "h"
-    18 -> "i"; 19 -> "j"; 20 -> "k"; 21 -> "l"; 22 -> "m"; 23 -> "n"; 24 -> "o"; 25 -> "p"
-    26 -> "q"; 27 -> "r"; 28 -> "s"; 29 -> "t"; 30 -> "u"; 31 -> "v"; 32 -> "w"; 33 -> "x"
-    34 -> "y"
-    else -> "z"
+fun convertIn(x: Int): String {
+    val list = listOf("a","b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+            "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+    return list[x - 10]
 }
 
 /**
@@ -316,14 +280,14 @@ fun con(x: Int): String = when (x) {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var result = 0.0
-    var power = digits.size - 1.0
+    var result = 0
+    var powBase = pow(base.toDouble(), digits.size - 1.0).toInt()
 
     for (element in digits) {
-        result += element * pow(base.toDouble(), power)
-        power -= 1
+        result += element * powBase
+        powBase /= base
     }
-    return result.toInt()
+    return result
 }
 
 /**
@@ -336,23 +300,24 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0.0
-    var power = str.length - 1.0
-    var conv: Int
+    var result = 0
+    var powBase = pow(base.toDouble(), str.length - 1.0).toInt()
+
     for (char in str) {
-        conv = convertInt(char)
-        result += conv * pow(base.toDouble(), power)
-        power -= 1
+        val conv = if (char - '0' > 9) convertOut(char)
+        else char - '0'
+        result += conv * powBase
+        powBase /= base
     }
-    return result.toInt()
+    return result
 }
 
-fun convertInt(x: Char): Int = when (x) {
-    '1' -> 1; '2' -> 2; '3' -> 3; '4' -> 4; '5' -> 5; '6' -> 6; '7' -> 7; '8' -> 8; '9' -> 9
-    'a' -> 10; 'd' -> 13; 'g' -> 16; 'j' -> 19; 'm' -> 22; 'p' -> 25; 's' -> 28; 'v' -> 31
-    'b' -> 11; 'e' -> 14; 'h' -> 17; 'k' -> 20; 'n' -> 23; 'q' -> 26; 't' -> 29; 'w' -> 32
-    'c' -> 12; 'f' -> 15; 'i' -> 18; 'l' -> 21; 'o' -> 24; 'r' -> 27; 'u' -> 30; 'x' -> 33
-    'y' -> 34; '0' -> 0; else -> 35
+fun convertOut(x: Char): Int  {
+    val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+            'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y')
+    for (element in list)
+        if (x == element) return list.indexOf(element) + 10
+    return 35
 }
 
 /**
