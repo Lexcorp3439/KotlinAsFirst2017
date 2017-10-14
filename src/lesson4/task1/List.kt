@@ -113,8 +113,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var absV = 0.0
 
-    for (i in 0 until v.size)
-        absV += sqr(v[i])
+    for (element in v)
+        absV += sqr(element)
     return sqrt(absV)
 }
 
@@ -168,7 +168,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var pX = 0.0
-    var powX = x
+    var powX = 1.0
 
     for (i in 0 until p.size) {
         pX += p[i] * powX
@@ -242,6 +242,7 @@ fun convert(n: Int, base: Int): List<Int> {
         result.add(n1 % base)
         n1 /= base
     }
+    if (n == 0) result.add(0)
     return result.reversed()
 }
 
@@ -263,6 +264,7 @@ fun convertToString(n: Int, base: Int): String {
         else result.add(convertIn(nBase))
         n1 /= base
     }
+    if (n == 0) result.add("0")
     return result.joinToString(separator = "").reversed()
 }
 
