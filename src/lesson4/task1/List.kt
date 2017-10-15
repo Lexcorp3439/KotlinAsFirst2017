@@ -329,14 +329,17 @@ val M = "M"
 fun roman(n: Int): String {
     var n1 = n
     val string = mutableListOf<String>()
+    val thirdNum = n1 / 100
+    val secondNum = n / 10 % 10
+    val firstNum = n % 10
 
     while (n1 >= 1000) {
         n1 -= 1000
         string.add(M)
     }
-    if (n1 / 100 != 0) string.add(romanList1[n1 / 100 - 1])
-    if (n / 10 % 10  != 0) string.add(romanList2[n / 10 % 10 - 1])
-    if (n % 10 != 0) string.add(romanList3[n % 10 - 1])
+    if (thirdNum != 0) string.add(romanList1[thirdNum - 1])
+    if (secondNum  != 0) string.add(romanList2[secondNum - 1])
+    if (firstNum != 0) string.add(romanList3[firstNum - 1])
     return string.joinToString("")
 }
 
@@ -367,29 +370,31 @@ val units1 = listOf("три", "четыре", "пять", "шесть", "сем�
 val units2 = listOf("одна", "две")
 val units3 = listOf("один", "два")
 
-fun strNumber1 (digit: Int, mod: Int): MutableList<String> {
+fun strNumber1 (digit: Int, part: Int): MutableList<String> {
     val result = mutableListOf<String>()
+    val thirdNum = digit / 100
+    val secondNum = digit / 10 % 10
+    val firstNum = digit % 10
+    val duoNum = digit % 100
 
-    if (digit / 100 > 0) result.add(hundreds[digit / 100 - 1])
+    if (thirdNum > 0) result.add(hundreds[thirdNum - 1])
 
-    if (digit % 100 / 10 > 1) result.add(dozens2[digit % 100 / 10 - 2])
+    if (secondNum > 1) result.add(dozens2[secondNum - 2])
 
-    if (digit % 100 in 10..19) {
-        result.add(dozens1[digit % 10])
-        if (mod == 2) result.add("тысяч")
+    if (duoNum in 10..19) {
+        result.add(dozens1[firstNum])
+        if (part == 2) result.add("тысяч")
         return result
     }
 
-    val dig = digit % 10
-
-    if (dig > 2) result.add(units1[dig - 3])
+    if (firstNum > 2) result.add(units1[firstNum - 3])
     else
-        if (dig != 0) when (mod) {
-            2 -> result.add(units2[dig - 1])
-            1 -> result.add(units3[dig - 1])
+        if (firstNum != 0) when (part) {
+            2 -> result.add(units2[firstNum - 1])
+            1 -> result.add(units3[firstNum - 1])
         }
 
-    if (mod == 2)
+    if (part == 2)
         when {
             result.last() == "одна" -> result.add("тысяча")
             result.last() == "две" -> result.add("тысячи")
