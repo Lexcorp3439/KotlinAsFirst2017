@@ -351,12 +351,9 @@ fun roman(n: Int): String {
  */
 fun russian(n: Int): String {
     var result = listOf<String>()
-    val result1:List<String>
-    if (n > 999)  {
-        result1 = strNumber1( n / 1000, 2)
-        result += result1
-    }
-    result += strNumber1( n % 1000, 1)
+
+    if (n > 999) result += strNumber( n / 1000, 2)
+    result += strNumber( n % 1000, 1)
     return result.joinToString(" ")
 }
 
@@ -368,7 +365,7 @@ val units1 = listOf("три", "четыре", "пять", "шесть", "сем�
 val units2 = listOf("одна", "две")
 val units3 = listOf("один", "два")
 
-fun strNumber1 (digit: Int, part: Int): MutableList<String> {
+fun strNumber (digit: Int, part: Int): MutableList<String> {
     val result = mutableListOf<String>()
     val thirdNum = digit / 100
     val secondNum = digit / 10 % 10
