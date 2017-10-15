@@ -327,8 +327,8 @@ val romanList3 = listOf("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
 val M = "M"
 
 fun roman(n: Int): String {
-    val fourthNum = n / 1000
     val string = mutableListOf<String>()
+    val fourthNum = n / 1000
     val thirdNum = n / 100 % 10
     val secondNum = n / 10 % 10
     val firstNum = n % 10
