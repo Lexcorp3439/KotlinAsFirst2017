@@ -101,7 +101,8 @@ fun fib(n: Int): Int {//= if (n > 2) fib(n - 1) + fib(n - 2) else 1
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    for (k in min(n, m) until n * m)
+    val x = min(n, m)
+    for (k in x until n * m)
         if (k % m == 0 && k % n == 0) return k
     return n * m
 }

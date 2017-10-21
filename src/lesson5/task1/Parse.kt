@@ -112,7 +112,7 @@ fun dateDigitToStr(digital: String): String {
 fun numToMonth(str: String): String = when (str) {
     "12" -> "декабря"
     "01" -> "января"
-    "02" -> "февраля "
+    "02" -> "февраля"
     "03" -> "марта"
     "04" -> "апреля"
     "05" -> "мая"
@@ -144,7 +144,9 @@ private val strReplace = Regex("[ ()+-]")
 fun flattenPhoneNumber(phone: String): String {
     val str = phone.replace(strReplace, "")
 
-    if (str matches number) return  if (phone.first() == '+')  "+" + str  else str
+    if (str matches number)
+        return if (phone.first() == '+') "+" + str
+        else str
     return ""
 }
 
