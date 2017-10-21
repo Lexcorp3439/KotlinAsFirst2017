@@ -60,6 +60,7 @@ class Tests {
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
         assertEquals("", flattenPhoneNumber(""))
+        assertEquals("0", flattenPhoneNumber("0"))
     }
 
     @Test
@@ -87,6 +88,8 @@ class Tests {
         assertEquals(4, plusMinus("2 + 2"))
         assertEquals(6, plusMinus("2 + 31 - 40 + 13"))
         assertEquals(-1, plusMinus("0 - 1"))
+        assertEquals(-1, plusMinus("-1"))
+        //println(plusMinus(""))
     }
 
     @Test
@@ -104,8 +107,8 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
-        assertEquals("Хлеб", mostExpensive("Хлеб 255.9; Курица 184.0"))
-
+        assertEquals("Sosok", mostExpensive("Хлеб 255.9; Курица 184.0; Sosok 337.12"))
+        assertEquals("+b^:SQ/ILs0,Z6P@", mostExpensive("L2RgIf#k2sJ~B 11508457.01; +b^:SQ/ILs0,Z6P@ 21474836.47; d7w>!4&yY6lAthU%PQWn@Ys?LNW6+]BNQoH7t4%uA6Ws6~^3W%S5ERZh-)7(w|:/68!|V)894e%9pzrr%u(1m'&U/{alaZFrMY/s4)_f(g3)9t}LB8T%`q$+z~u=g!3?{?lpU*^NH2K9Tx]2,2t`dyW|Hy]Ii=^%Q`Eq?1%* 11516318.83; %%G%oYx?,JW-frWK0fOf&APR):c<{5j<p6%7g<E#sk%kfD}O7}U,6P(@`ZygeG(O5RarBWq%K*c/%xuj=zlvZup9+3k~IWx5VQucC-iu,) 0.0; NsesD.lWGfCh#6zec]oYOLebN*VsP1]+ 5.3"))
     }
 
     @Test
@@ -117,6 +120,7 @@ class Tests {
         assertEquals(694, fromRoman("DCXCIV"))
         assertEquals(49, fromRoman("XLIX"))
         assertEquals(-1, fromRoman("Z"))
+        assertEquals(-1, fromRoman(""))
     }
 
     @Test
