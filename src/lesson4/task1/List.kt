@@ -336,7 +336,7 @@ fun roman(n: Int): String {
     for (i in 0 until fourthNum)
         string.add(M)
     if (thirdNum != 0) string.add(romanList1[thirdNum - 1])
-    if (secondNum  != 0) string.add(romanList2[secondNum - 1])
+    if (secondNum != 0) string.add(romanList2[secondNum - 1])
     if (firstNum != 0) string.add(romanList3[firstNum - 1])
     return string.joinToString("")
 }
@@ -352,8 +352,8 @@ fun roman(n: Int): String {
 fun russian(n: Int): String {
     var result = listOf<String>()
 
-    if (n > 999) result += strNumber( n / 1000, 2)
-    result += strNumber( n % 1000, 1)
+    if (n > 999) result += strNumber(n / 1000, 2)
+    result += strNumber(n % 1000, 1)
     return result.joinToString(" ")
 }
 
@@ -373,22 +373,18 @@ fun strNumber (digit: Int, part: Int): MutableList<String> {
     val duoNum = digit % 100
 
     if (thirdNum > 0) result.add(hundreds[thirdNum - 1])
-
     if (secondNum > 1) result.add(dozens2[secondNum - 2])
-
     if (duoNum in 10..19) {
         result.add(dozens1[firstNum])
         if (part == 2) result.add("тысяч")
         return result
     }
-
     if (firstNum > 2) result.add(units1[firstNum - 3])
     else
         if (firstNum != 0) when (part) {
             2 -> result.add(units2[firstNum - 1])
             1 -> result.add(units3[firstNum - 1])
         }
-
     if (part == 2)
         when {
             result.last() == "одна" -> result.add("тысяча")
@@ -397,6 +393,5 @@ fun strNumber (digit: Int, part: Int): MutableList<String> {
             result.last() == "четыре" -> result.add("тысячи")
             else -> result.add("тысяч")
         }
-
     return result
 }
