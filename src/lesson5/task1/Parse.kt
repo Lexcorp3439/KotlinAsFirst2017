@@ -59,7 +59,7 @@ fun main(args: Array<String>) {
     }
 }
 
-private val Digitregex = Regex("^\\d{1,2} [а-я]{3,} \\d+$")
+
 
 /**
  * Средняя
@@ -69,24 +69,27 @@ private val Digitregex = Regex("^\\d{1,2} [а-я]{3,} \\d+$")
  * День иц всегда представлять двумя цифрами, например: 03.04.201 меся1.
  * При неверном формате входной строки вернуть пустую строку
  */
+private val date = Regex("^\\d{1,2} [а-я]{3,} \\d+$")
+
 fun dateStrToDigit(str: String): String {
-    var string = ""
-
-    if (str matches Digitregex) {
-        var (days, month, year) = str.split(" ")
-        if (days.toInt() < 10) days = "0" + days.toInt().toString()
-        string = days + "." + partconvert(month) + year
-        if (partconvert(month) == NaN.toString()) string = ""
+    if (!(str matches date)) return ""
+    var (days, month, year) = str.split(" ")
+    month = when (month) {
+        "декабря" -> "12"
+        "января" -> "01"
+        "февраля" -> "02"
+        "марта" -> "03"
+        "апреля" -> "04"
+        "мая" -> "05"
+        "июня" -> "06"
+        "июля" -> "07"
+        "августа" -> "08"
+        "сентября" -> "09"
+        "октября" -> "10"
+        "ноября" -> "11"
+        else -> return ""
     }
-    return string
-}
-
-fun partconvert(str: String): String = when (str) {
-    "декабря" -> "12."; "января" -> "01."; "февраля" -> "02."
-    "марта" -> "03."; "апреля" -> "04."; "мая" -> "05."
-    "июня" -> "06."; "июля" -> "07."; "августа" -> "08."
-    "сентября" -> "09."; "октября" -> "10."; "ноября" -> "11."
-    else -> NaN.toString()
+    return String.format("%02d.%02d.%d", days.toInt(), month.toInt(), year.toInt())
 }
 
 /**
@@ -96,25 +99,29 @@ fun partconvert(str: String): String = when (str) {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String {
-    var string = ""
+private val dataStr = Regex("^\\d{2}\\.\\d{2}\\.\\d+$")
 
-    if (digital matches Digitregex2) {
-        var (days, month, year) = digital.split(".")
-        if (days.toInt() < 10) days = days.toInt().toString()
-        string = days + " " + partconvert2(month) + year
-        if (partconvert2(month) == NaN.toString()) string = ""
-    }
-    return string
+fun dateDigitToStr(digital: String): String {
+    if (!(digital matches dataStr)) return ""
+    var (days, month, year) = digital.split(".")
+    month = numToMonth(month)
+    if (month == NaN.toString()) return ""
+    return String.format("%d %s %d", days.toInt(), month, year.toInt())
 }
 
-private val Digitregex2 = Regex("^\\d{2}\\.\\d{2}\\.\\d+$")
-
-fun partconvert2(str: String): String = when (str) {
-    "12" -> "декабря "; "01" -> "января "; "02" -> "февраля "
-    "03" -> "марта "; "04" -> "апреля "; "05" -> "мая "
-    "06" -> "июня "; "07" -> "июля "; "08" -> "августа "
-    "09" -> "сентября "; "10" -> "октября "; "11" -> "ноября "
+fun numToMonth(str: String): String = when (str) {
+    "12" -> "декабря"
+    "01" -> "января"
+    "02" -> "февраля "
+    "03" -> "марта"
+    "04" -> "апреля"
+    "05" -> "мая"
+    "06" -> "июня"
+    "07" -> "июля"
+    "08" -> "августа"
+    "09" -> "сентября"
+    "10" -> "октября"
+    "11" -> "ноября"
     else -> NaN.toString()
 }
 
@@ -131,15 +138,13 @@ fun partconvert2(str: String): String = when (str) {
  * При неверном формате вернуть пустую строку
  */
 
-private val simbol = Regex("\\d+")
+private val number = Regex("\\d+")
+private val strReplace = Regex("[ ()+-]")
 
 fun flattenPhoneNumber(phone: String): String {
-    var plus = ""
-    val str = phone.split(" ", "-", "+", "(", ")").joinToString("")
+    val str = phone.replace(strReplace, "")
 
-    if (phone == "") return ""
-    if (phone.first() == '+') plus = "+"
-    if (str matches simbol ) return plus + str
+    if (str matches number) return  if (phone.first() == '+')  "+" + str  else str
     return ""
 }
 
@@ -153,13 +158,12 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-val regexDigit = Regex("\\d+")
 
 fun bestLongJump(jumps: String): Int {
     var max = 0
     val str = jumps.split(" ", "-", "%")
 
-    if (!(str.joinToString("") matches regexDigit)) return -1
+    if (!(str.joinToString("") matches number)) return -1
     for (part in str)
         if (part != "" && part.toInt() > max) max = part.toInt()
     return max
@@ -186,21 +190,18 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-val megaRegex = Regex("(\\d+)?([+-]\\d+)+")
+val expressionFormat = Regex("[-]?(\\d+)([+-]\\d+)*")
 
 fun plusMinus(expression: String): Int {
     val str = expression.split(" ")
-    var sorting = 1
-    var result = 0
-    var intermediate = ""
+    var sign = ""
 
-    require(str.joinToString("") matches megaRegex)
-    for (part in str) {
-        if (sorting == 1) result = part.toInt()
-        if (sorting % 2 == 1 && sorting != 1) if (intermediate == "+") result += part.toInt()
-        else result -= part.toInt()
-        if (sorting % 2 == 0) intermediate = part
-        sorting++
+    require(str.joinToString("") matches expressionFormat)
+    var result = str[0].toInt()
+    for (i in 1 until str.size){
+        if (i % 2 == 1) sign = str[i]
+        else result = if (sign == "+") result + str[i].toInt()
+                      else result - str[i].toInt()
     }
     return result
 }
@@ -216,21 +217,14 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val string = str.split(" ")
-    var space = 0
-    var number = 0
-    var answer = 0
+    var result = 0
 
     for (i in 1 until string.size) {
-        if (string[i - 1].toLowerCase() == string[i].toLowerCase()) {
-            number = i - 1
-            break
-        }
+        if (string[i - 1].toLowerCase() == string[i].toLowerCase())
+            return result
+            result += string[i - 1].length + 1
     }
-    for (i in 0 until str.length) {
-        if (str[i] == ' ') space += 1
-        if (space == number - 1) answer = i + 2
-    }
-    return if (answer == 0) -1 else answer
+    return - 1
 }
 
 /**
@@ -245,23 +239,19 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 
-val stringRegex = Regex("\\d+")
-val stringRegex1 = Regex(" ")
-
 
 fun mostExpensive(description: String): String {
     var max = 0.0
     var maxNum = 1
-    val str = description.split(" ", ";")
+    val str = description.replace(";", "").split(" ")
 
-    for (i in 1 until str.size - 1  step 3) {
-        if (str[i] matches stringRegex && str[i + 1] matches stringRegex1) return ""
+    for (i in 1 until str.size  step 2) {
+        if (str[i] matches number) return ""
         if (str[i].toDouble() > max) {
             max = str[i].toDouble()
             maxNum = i
         }
     }
-    if (description != "" && max < str[str.size - 1].toDouble()) maxNum = str.size - 1
     return str[maxNum - 1]
 }
 
@@ -285,40 +275,39 @@ fun fromRoman(roman: String): Int {
 
 fun convertToRoman(str: String): Int {
     var sum = 0
-    for (i in 0 until str.length) {
-        if (i > 0) {
-            when {
-                str[i - 1] == 'I' && str[i] == 'V' -> sum = sum - 1 + 4
-                str[i - 1] == 'I' && str[i] == 'X' -> sum = sum - 1 + 9
-                str[i - 1] == 'X' && str[i] == 'L' -> sum = sum - 10 + 40
-                str[i - 1] == 'X' && str[i] == 'C' -> sum = sum - 10 + 90
-                str[i - 1] == 'C' && str[i] == 'D' -> sum = sum - 100 + 400
-                str[i - 1] == 'C' && str[i] == 'M' -> sum = sum - 100 + 900
-                else -> when (str[i]) {
-                    'I' -> sum += 1
-                    'V' -> sum += 5
-                    'X' -> sum += 10
-                    'L' -> sum += 50
-                    'C' -> sum += 100
-                    'D' -> sum += 500
-                    'M' -> sum += 1000
-                    else -> -1
-                }
-            }
-        } else when (str[i]) {
-            'I' -> sum += 1
-            'V' -> sum += 5
-            'X' -> sum += 10
-            'L' -> sum += 50
-            'C' -> sum += 100
-            'D' -> sum += 500
-            'M' -> sum += 1000
-            else -> -1
-        }
+
+    when (str[0]) {
+        'I' -> sum += 1
+        'V' -> sum += 5
+        'X' -> sum += 10
+        'L' -> sum += 50
+        'C' -> sum += 100
+        'D' -> sum += 500
+        'M' -> sum += 1000
+        else -> -1
     }
+    for (i in 1 until str.length)
+        when {
+            str[i - 1] == 'I' && str[i] == 'V' -> sum = sum - 1 + 4
+            str[i - 1] == 'I' && str[i] == 'X' -> sum = sum - 1 + 9
+            str[i - 1] == 'X' && str[i] == 'L' -> sum = sum - 10 + 40
+            str[i - 1] == 'X' && str[i] == 'C' -> sum = sum - 10 + 90
+            str[i - 1] == 'C' && str[i] == 'D' -> sum = sum - 100 + 400
+            str[i - 1] == 'C' && str[i] == 'M' -> sum = sum - 100 + 900
+            else -> when (str[i]) {
+                'I' -> sum += 1
+                'V' -> sum += 5
+                'X' -> sum += 10
+                'L' -> sum += 50
+                'C' -> sum += 100
+                'D' -> sum += 500
+                'M' -> sum += 1000
+                else -> -1
+            }
+        }
     return sum
 }
-//
+
 /**
  * Очень сложная
  *
