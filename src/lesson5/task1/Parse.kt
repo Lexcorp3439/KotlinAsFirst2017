@@ -248,7 +248,7 @@ fun mostExpensive(description: String): String {
     val str = description.replace(";", "").split(" ")
 
     for (i in 1 until str.size  step 2) {
-        if (str[i] matches number) return ""
+        if (str[i] matches number && str[i] != "0") return ""
         if (str[i].toDouble() > max) {
             max = str[i].toDouble()
             maxNum = i
