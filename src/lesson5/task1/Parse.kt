@@ -241,14 +241,14 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 
-
+val numberDouble = Regex("\\d+(\\.\\d+)?")
 fun mostExpensive(description: String): String {
-    var max = 0.0
+    var max = 0.01
     var maxNum = 1
     val str = description.replace(";", "").split(" ")
 
     for (i in 1 until str.size  step 2) {
-        if (str[i] matches number && str[i] != "0") return ""
+        if (!(str[i] matches numberDouble )) return ""
         if (str[i].toDouble() > max) {
             max = str[i].toDouble()
             maxNum = i
