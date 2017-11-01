@@ -25,7 +25,7 @@ data class Square(val column: Int, val row: Int) {
      */
     fun notation(): String {
         var str = ""
-        val list = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+        val list = ('a'..'h').toList()
 
         if (inside()) str += list[column - 1] + row.toString()
         return str
@@ -42,14 +42,13 @@ data class Square(val column: Int, val row: Int) {
 val notationRegex = Regex("^[a-h][1-8]$")
 
 fun square(notation: String): Square {
-    val list = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
-    var column = 0
     require(notation matches notationRegex)
+    val list = ('a'..'h').toList()
+    var column = 0
     val digit = notation[1] - '0'
 
-    for ((index, element) in list.withIndex())
-        if (element == notation[0]) column = index + 1
-
+    for (element in list)
+        if (element == notation[0]) column = list.indexOf(element) + 1
     require (Square(column, digit).inside())
     return Square(column, digit)
 }
@@ -79,9 +78,9 @@ fun square(notation: String): Square {
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
     var go = 0
-        if (start.column != end.column) go += 1
-        if (start.row != end.row) go += 1
 
+    if (start.column != end.column) go += 1
+    if (start.row != end.row) go += 1
     require(start.inside() && end.inside())
     return go
 }
@@ -102,9 +101,10 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>(start)
+    val moveNumber = rookMoveNumber(start, end)
 
-    if (rookMoveNumber(start, end) == 2) list.add(Square(end.column,start.row))
-    if (rookMoveNumber(start, end) != 0) list.add(end)
+    if (moveNumber == 2) list.add(Square(end.column,start.row))
+    if (moveNumber != 0) list.add(end)
     return list
 }
 
@@ -132,17 +132,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    var go = 0
     require(start.inside() && end.inside())
-    if (can(start,end)) return -1
-    else {
-        if (start != end) go += 1
-        if (abs(start.column - end.column) != abs(start.row - end.row)) go += 1
-    }
+    var go = 0
+
+    if ((start.column + start.row) % 2 != (end.column + end.row) % 2) return -1
+    if (start != end) go += 1
+    if (abs(start.column - end.column) != abs(start.row - end.row)) go += 1
     return go
 }
 
-fun can(start: Square, end: Square): Boolean = (start.column + start.row)%2 != (end.column + end.row)%2
 /**
  * Сложная
  *
@@ -164,8 +162,8 @@ fun can(start: Square, end: Square): Boolean = (start.column + start.row)%2 != (
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>()
 
-    if (can(start, end)) return list
-    else list.add(start)
+    if ((start.column + start.row) % 2 != (end.column + end.row) % 2) return list
+    list.add(start)
     if (start != end) {
         if (abs(start.column - end.column) != abs(start.row - end.row)) list.add(centralMove(start, end))
         list.add(end)
@@ -181,9 +179,11 @@ fun centralMove (start: Square, end: Square) : Square {
 
     minimum = if (abs(delta) < abs(delta1) && delta != 0) delta else delta1
     minimum = if (abs(delta1) < abs(delta) && delta1 != 0) delta1 else delta
+   // val column = end.column + if(row - end.row < 0) row - end.row else  end.row - row
     val column = minimum + row
     return Square(column, row)
 }
+
 /**
  * Средняя
  *

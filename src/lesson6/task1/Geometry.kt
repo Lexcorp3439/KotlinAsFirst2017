@@ -116,19 +116,20 @@ data class Segment(val begin: Point, val end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
+    require(points.size >= 2)
     var max = 0.0
     var sqrX: Double
     var sqrY: Double
-    var point1: Point = points[0]
-    var point2: Point = points[1]
+    var point1 = points[0]
+    var point2 = points[1]
 
-    require(points.size >= 2)
     for (i in 0 until points.size) {
         for (j in i + 1 until points.size) {
             sqrX = sqr(points[i].x - points[j].x)
             sqrY = sqr(points[i].y - points[j].y)
-            if (max < sqrt(sqrX + sqrY)) {
-                max = sqrt(sqrX + sqrY)
+            val sqrtXY = sqrt(sqrX + sqrY)
+            if (max < sqrtXY) {
+                max = sqrtXY
                 point1 = points[i]
                 point2 = points[j]
             }
@@ -144,9 +145,10 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val xX = abs(diameter.begin.x - diameter.end.x) / 2 + min(diameter.begin.x, diameter.end.x)
-    val yY = abs(diameter.begin.y - diameter.end.y) / 2 + min(diameter.begin.y, diameter.end.y)
+    val xX = (diameter.end.x + diameter.begin.x) / 2
+    val yY = (diameter.end.y - diameter.begin.y) / 2
     val rad = Point(xX, yY).distance(Point(diameter.begin.x, diameter.begin.y))
+
     return Circle(Point(xX, yY), rad)
 }
 
@@ -171,8 +173,9 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = (other.b / cos(other.angle) - b / cos(angle)) / (tan(angle) - tan(other.angle)) //(sin(angle) / cos(angle) - sin(other.angle) / cos(other.angle))(tan(angle) - tan(other.angle))
+        val x = (other.b / cos(other.angle) - b / cos(angle)) / (tan(angle) - tan(other.angle))
         val y = (x * sin(other.angle) + other.b) / cos(other.angle)
+
         return Point(x, y)
     }
 
@@ -192,16 +195,16 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun Angel(x: Double): Double = when {
+fun Normalize(x: Double): Double = when {
     x < 0 -> x + PI
     x >= PI -> x - PI
     else -> x
 }
 
 fun lineBySegment(s: Segment): Line {
-    val angel = atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
+    val angel = atan2((s.begin.y - s.end.y),(s.begin.x - s.end.x))
 
-    return Line(s.begin, Angel(angel))
+    return Line(s.begin, Normalize(angel))
 }
 
 
@@ -211,7 +214,6 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
-// Как-то слишком легко, может попробовать другим способом? Или так сойдет?
 
 /**
  * Сложная
@@ -226,7 +228,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     val center = Point(centerX, centerY)
     val angel = atan(y / x )
 
-    return Line(center,  Angel(PI/2 + angel))
+    return Line(center,  Normalize(PI/2 + angel))
 }
 //
 /**

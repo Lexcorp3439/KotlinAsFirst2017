@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
 
+import lesson3.task1.squareBetweenExists
+
 /**
  * Ячейка матрицы: row = ряд, column = колонка
  */
@@ -38,31 +40,51 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(height, width, e)
 
 /**
  * Средняя сложность
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+class MatrixImpl<E>(h: Int, w: Int, e: E) : Matrix<E> {
+    val matrix = mutableListOf<E>()
 
-    override val width: Int = TODO()
+    init {
+        require(h > 0 && w > 0)
+        for (i in 0 until h * w) {
+            matrix.add(e)
+        }
+    }
 
-    override fun get(row: Int, column: Int): E  = TODO()
+    override val height: Int = h
 
-    override fun get(cell: Cell): E  = TODO()
+    override val width: Int = w
+
+    override fun get(row: Int, column: Int): E =
+            matrix[row * width + column]
+
+    override fun get(cell: Cell): E =
+            matrix[cell.row * width + cell.column]
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        matrix[row * width + column] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        TODO()
+        matrix[cell.row * width + cell.column] = value
     }
 
-    override fun equals(other: Any?) = TODO()
+    fun similarity(other: Matrix<*>): Boolean{
+        if (height != other.height && width != other.width) return false
+        for (i in 0 until height)
+            for (j in 0 until width)
+                if (get(i, j) != other[i, j]) return false
+        return true
+    }
+
+    override fun equals(other: Any?) =
+            other is MatrixImpl<*> && similarity(other)
 
     override fun toString(): String = TODO()
 }

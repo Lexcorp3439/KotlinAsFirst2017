@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import java.lang.Double.NaN
-
 /**
  * Пример
  *
@@ -105,7 +103,7 @@ fun dateDigitToStr(digital: String): String {
     if (!(digital matches dataStr)) return ""
     var (days, month, year) = digital.split(".")
     month = numToMonth(month)
-    if (month == NaN.toString()) return ""
+    if (month == "") return ""
     return String.format("%d %s %d", days.toInt(), month, year.toInt())
 }
 
@@ -122,7 +120,7 @@ fun numToMonth(str: String): String = when (str) {
     "09" -> "сентября"
     "10" -> "октября"
     "11" -> "ноября"
-    else -> NaN.toString()
+    else -> ""
 }
 
 /**
@@ -196,13 +194,13 @@ val expressionFormat = Regex("[-]?(\\d+)([+-]\\d+)*")
 
 fun plusMinus(expression: String): Int {
     val str = expression.split(" ")
-    var sign = ""
+    var sign :String
 
     require(str.joinToString("") matches expressionFormat)
     var result = str[0].toInt()
-    for (i in 1 until str.size){
-        if (i % 2 == 1) sign = str[i]
-        else result = if (sign == "+") result + str[i].toInt()
+    for (i in 2 until str.size step 2){
+        sign = str[i - 1]
+        result = if (sign == "+") result + str[i].toInt()
                       else result - str[i].toInt()
     }
     return result
@@ -218,13 +216,13 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val string = str.split(" ")
+    val word = str.split(" ")
     var result = 0
 
-    for (i in 1 until string.size) {
-        if (string[i - 1].toLowerCase() == string[i].toLowerCase())
+    for (i in 1 until word.size) {
+        if (word[i - 1].toLowerCase() == word[i].toLowerCase())
             return result
-            result += string[i - 1].length + 1
+        result += word[i - 1].length + 1
     }
     return - 1
 }
@@ -241,14 +239,15 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 
-val numberDouble = Regex("\\d+(\\.\\d+)?")
+val costRegex = Regex("\\d+(\\.\\d+)?")
+
 fun mostExpensive(description: String): String {
-    var max = 0.01
+    var max = 0.0
     var maxNum = 1
     val str = description.replace(";", "").split(" ")
 
     for (i in 1 until str.size  step 2) {
-        if (!(str[i] matches numberDouble )) return ""
+        if (!(str[i] matches costRegex)) return ""
         if (str[i].toDouble() > max) {
             max = str[i].toDouble()
             maxNum = i
