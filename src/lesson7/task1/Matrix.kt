@@ -65,22 +65,19 @@ class MatrixImpl<E>(h: Int, w: Int, e: E) : Matrix<E> {
             matrix[row * width + column]
 
     override fun get(cell: Cell): E =
-            matrix[cell.row * width + cell.column]
+            get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
         matrix[row * width + column] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        matrix[cell.row * width + cell.column] = value
+        set(cell.row, cell.column, value)
     }
 
     fun similarity(other: Matrix<*>): Boolean{
         if (height != other.height && width != other.width) return false
-        for (i in 0 until height)
-            for (j in 0 until width)
-                if (get(i, j) != other[i, j]) return false
-        return true
+        return matrix === other
     }
 
     override fun equals(other: Any?) =

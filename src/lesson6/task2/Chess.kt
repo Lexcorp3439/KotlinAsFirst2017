@@ -44,11 +44,9 @@ val notationRegex = Regex("^[a-h][1-8]$")
 fun square(notation: String): Square {
     require(notation matches notationRegex)
     val list = ('a'..'h').toList()
-    var column = 0
+    val column = list.indexOf(notation[0]) + 1
     val digit = notation[1] - '0'
 
-    for (element in list)
-        if (element == notation[0]) column = list.indexOf(element) + 1
     require (Square(column, digit).inside())
     return Square(column, digit)
 }
@@ -165,22 +163,23 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if ((start.column + start.row) % 2 != (end.column + end.row) % 2) return list
     list.add(start)
     if (start != end) {
-        if (abs(start.column - end.column) != abs(start.row - end.row)) list.add(centralMove(start, end))
+        if (abs(start.column - end.column) != abs(start.row - end.row)) list.add(midMove(start, end))
         list.add(end)
     }
+
     return list
 }
 
-fun centralMove (start: Square, end: Square) : Square {
-    val delta = start.column - start.row
-    val delta1 = end.column - end.row
-    var minimum: Int
+fun midMove (start: Square, end: Square) : Square {
+    val deltaStart = start.column - start.row
+    val deltaEnd = end.column - end.row
+    var min: Int
     val row = (start.row - start.column + end.column + end.row) / 2
 
-    minimum = if (abs(delta) < abs(delta1) && delta != 0) delta else delta1
-    minimum = if (abs(delta1) < abs(delta) && delta1 != 0) delta1 else delta
+    min = if (abs(deltaStart) < abs(deltaEnd) && deltaStart != 0) deltaStart else deltaEnd
+    min = if (abs(deltaEnd) < abs(deltaStart) && deltaEnd != 0) deltaEnd else deltaStart
    // val column = end.column + if(row - end.row < 0) row - end.row else  end.row - row
-    val column = minimum + row
+    val column = min + row
     return Square(column, row)
 }
 

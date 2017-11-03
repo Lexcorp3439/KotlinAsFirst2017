@@ -195,16 +195,16 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun Normalize(x: Double): Double = when {
+fun normalize(x: Double): Double = when {
     x < 0 -> x + PI
     x >= PI -> x - PI
     else -> x
 }
 
 fun lineBySegment(s: Segment): Line {
-    val angel = atan2((s.begin.y - s.end.y),(s.begin.x - s.end.x))
+    val angle = atan2((s.begin.y - s.end.y), (s.begin.x - s.end.x))
 
-    return Line(s.begin, Normalize(angel))
+    return Line(s.begin, normalize(angle))
 }
 
 
@@ -226,9 +226,9 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     val centerX = (a.x + b.x)/2
     val centerY = (a.y + b.y)/2
     val center = Point(centerX, centerY)
-    val angel = atan(y / x )
+    val angel = atan(y / x)
 
-    return Line(center,  Normalize(PI/2 + angel))
+    return Line(center, normalize(PI/2 + angel))
 }
 //
 /**

@@ -184,6 +184,7 @@ fun sin(x: Double, eps: Double): Double {
     return reply
 }
 
+
 /**
  * Средняя
  *
@@ -215,6 +216,7 @@ fun cos(x: Double, eps: Double): Double {
     }
     return reply
 }
+
 
 /**
  * Средняя
