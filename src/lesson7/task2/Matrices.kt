@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -59,7 +60,46 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 1)
+    var startH = 0
+    var startW = 0
+    var endH = height - 1
+    var endW = width - 1
+    var h = startH
+    var w = startW
+    var add = 1
+
+    while (add < height * width) {
+        while (w != endW) {
+            matrix[h, w] = add
+            add++
+            w++
+        }
+        while (h != endH) {
+            matrix[h, w] = add
+            add++
+            h++
+        }
+        while (w != startW) {
+            matrix[h, w] = add
+            add++
+            w--
+        }
+        while (h != startH) {
+            matrix[h, w] = add
+            add++
+            h--
+        }
+        startH++
+        startW++
+        endH--
+        endW--
+        h = startH
+        w = startW
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -75,7 +115,48 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 1)
+    var startH = 0
+    var startW = 0
+    var endH = height - 1
+    var endW = width - 1
+    var h = startH
+    var w = startW
+    var digit = 1
+    var add = 1
+
+    while (digit < height * width) {
+        while (w != endW) {
+            matrix[h, w] = add
+            digit++
+            w++
+        }
+        while (h != endH) {
+            matrix[h, w] = add
+            digit++
+            h++
+        }
+        while (w != startW) {
+            matrix[h, w] = add
+            digit++
+            w--
+        }
+        while (h != startH) {
+            matrix[h, w] = add
+            digit++
+            h--
+        }
+        startH++
+        startW++
+        endH--
+        endW--
+        h = startH
+        w = startW
+        add++
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -90,7 +171,23 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSnake(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 1)
+    var add = 1
+
+    for (i in 0 until width + height) {
+        var hopW = if (i < width) i else width - 1
+        var hopH = if (i < width) 0 else i - width + 1
+
+        while (hopW >= 0 && hopH <= height - 1) {
+            matrix[hopH, hopW] = add
+            add++
+            hopW--
+            hopH++
+        }
+    }
+    return matrix
+}
 
 /**
  * Средняя
@@ -103,7 +200,19 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    var w = 0
+
+    val reversed = matrix
+    for (i in 0 until matrix.width) {
+        for (j in matrix.height - 1 downTo 0) {
+            reversed[i, w] = matrix[j, i]
+            w++
+        }
+        w = 0
+    }
+    return reversed
+}
 
 /**
  * Сложная
@@ -118,7 +227,41 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    if (matrix.height == 1) return matrix[0, 0] == 1
+    for (i in 0 until matrix.width)
+        for (j in 0 until matrix.height)
+            if (matrix[i, j] > matrix.height || matrix[i, j] < 1) return false
+    for (i in 0 until matrix.height)
+        for (j in 0 until matrix.width - 1)
+            for (k in j + 1 until matrix.width)
+                if (matrix[i, j] == matrix[i, k]) return false
+    for (i in 0 until matrix.width)
+        for (j in 0 until matrix.height - 1)
+            for (k in j + 1 until matrix.height)
+                if (matrix[j, i] == matrix[k, i]) return false
+
+    return true
+}
+
+/*
+fun exem(matrix: Matrix<Int>): Boolean {
+    for (i in 0 until matrix.height)
+        for (j in 0 until matrix.width - 1)
+            for (k in j + 1 until matrix.width)
+                if (matrix[i, j] == matrix[i, k]) return false
+
+    for (i in 0 until matrix.width)
+        for (j in 0 until matrix.height - 1)
+            for (k in j + 1 until matrix.height)
+                if (matrix[j, i] == matrix[k, i]) return false
+
+    for (i in 0 until matrix.width)
+        for (j in 0 until matrix.height)
+            if (matrix[i, j] > matrix.height || matrix[i, j] < 1) return false
+    return true
+}*/
 
 /**
  * Средняя

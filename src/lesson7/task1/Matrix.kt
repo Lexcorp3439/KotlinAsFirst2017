@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
+
 package lesson7.task1
 
 import lesson3.task1.squareBetweenExists
@@ -23,6 +24,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует или пуста
      */
     operator fun get(row: Int, column: Int): E
+
     operator fun get(cell: Cell): E
 
     /**
@@ -30,6 +32,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует
      */
     operator fun set(row: Int, column: Int, value: E)
+
     operator fun set(cell: Cell, value: E)
 }
 
@@ -75,14 +78,32 @@ class MatrixImpl<E>(h: Int, w: Int, e: E) : Matrix<E> {
         set(cell.row, cell.column, value)
     }
 
-    fun similarity(other: Matrix<*>): Boolean{
+    fun similarity(other: MatrixImpl<*>): Boolean {
         if (height != other.height && width != other.width) return false
-        return matrix === other
+        for (i in 0 until height * width)
+            if (matrix[i] != other.matrix[i]) return false
+        return true
+            //return matrix == other
     }
 
     override fun equals(other: Any?) =
+            //other is MatrixImpl<*> && similarity(other)
             other is MatrixImpl<*> && similarity(other)
 
-    override fun toString(): String = TODO()
+    override fun toString(): String = matrix.joinToString()
+    /* override fun toString(): String {
+         val sb = StringBuilder()
+         sb.append("[")
+         for (row in 0..height - 1) {
+             sb.append("[")
+             for (column in 0..width - 1) {
+                 sb.append(this[row, column])
+                 // Подумайте здесь про запятые и пробелы, или попробуйте использовать joinToString
+             }
+             sb.append("]")
+         }
+         sb.append("]")
+         return "$sb" // or, sb.toString()
+     } */
 }
 
