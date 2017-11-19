@@ -3,6 +3,7 @@
 package lesson7.task2
 
 import lesson7.task1.Matrix
+import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -61,7 +62,7 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  *  9  8  7  6
  */
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
-    val matrix = createMatrix(height, width, 1)
+    val matrix = createMatrix(height, width, height * width)
     var startH = 0
     var startW = 0
     var endH = height - 1
@@ -76,11 +77,13 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             add++
             w++
         }
+        if (endH == 0) break
         while (h != endH) {
             matrix[h, w] = add
             add++
             h++
         }
+        if (endW == 0) break
         while (w != startW) {
             matrix[h, w] = add
             add++
@@ -201,17 +204,17 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
  * 7 8 9      9 6 3
  */
 fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
-    var w = 0
-
-    val reversed = matrix
-    for (i in 0 until matrix.width) {
-        for (j in matrix.height - 1 downTo 0) {
-            reversed[i, w] = matrix[j, i]
-            w++
-        }
-        w = 0
-    }
-    return reversed
+//    var w = 0
+//
+//    val reversed = matrix
+//    for (i in 0 until matrix.width) {
+//        for (j in matrix.height - 1 downTo 0) {
+//            matrix[i, w] = reversed[i, w]//reversed[i, w] = matrix[j, i]
+//            w++
+//        }
+//        w = 0
+//    }
+    return matrix//reversed
 }
 
 /**

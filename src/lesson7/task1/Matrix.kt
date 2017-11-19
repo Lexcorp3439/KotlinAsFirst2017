@@ -83,27 +83,21 @@ class MatrixImpl<E>(h: Int, w: Int, e: E) : Matrix<E> {
         for (i in 0 until height * width)
             if (matrix[i] != other.matrix[i]) return false
         return true
-            //return matrix == other
     }
 
     override fun equals(other: Any?) =
-            //other is MatrixImpl<*> && similarity(other)
             other is MatrixImpl<*> && similarity(other)
 
-    override fun toString(): String = matrix.joinToString()
-    /* override fun toString(): String {
+     override fun toString(): String {
          val sb = StringBuilder()
-         sb.append("[")
-         for (row in 0..height - 1) {
-             sb.append("[")
-             for (column in 0..width - 1) {
+         for (row in 0 until height) {
+             for (column in 0 until width) {
                  sb.append(this[row, column])
-                 // Подумайте здесь про запятые и пробелы, или попробуйте использовать joinToString
+                 if (column != height - 1) sb.append(" ")
              }
-             sb.append("]")
+             sb.append("\n")
          }
-         sb.append("]")
-         return "$sb" // or, sb.toString()
-     } */
+         return  sb.toString()
+     }
 }
 
