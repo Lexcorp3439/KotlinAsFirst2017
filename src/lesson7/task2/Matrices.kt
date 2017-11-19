@@ -70,20 +70,20 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var h = startH
     var w = startW
     var add = 1
+    val size = height * width
 
-    while (add < height * width) {
+    while (add < size) {
         while (w != endW) {
             matrix[h, w] = add
             add++
             w++
         }
-        if (endH == 0) break
         while (h != endH) {
             matrix[h, w] = add
             add++
             h++
         }
-        if (endW == 0) break
+        if (add == size) return matrix
         while (w != startW) {
             matrix[h, w] = add
             add++
@@ -94,6 +94,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             add++
             h--
         }
+        if (add == size) return matrix
         startH++
         startW++
         endH--
