@@ -249,23 +249,6 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     return true
 }
 
-/*
-fun exem(matrix: Matrix<Int>): Boolean {
-    for (i in 0 until matrix.height)
-        for (j in 0 until matrix.width - 1)
-            for (k in j + 1 until matrix.width)
-                if (matrix[i, j] == matrix[i, k]) return false
-
-    for (i in 0 until matrix.width)
-        for (j in 0 until matrix.height - 1)
-            for (k in j + 1 until matrix.height)
-                if (matrix[j, i] == matrix[k, i]) return false
-
-    for (i in 0 until matrix.width)
-        for (j in 0 until matrix.height)
-            if (matrix[i, j] > matrix.height || matrix[i, j] < 1) return false
-    return true
-}*/
 
 /**
  * Средняя
