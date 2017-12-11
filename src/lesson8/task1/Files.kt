@@ -62,10 +62,19 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         var digit = 0
         val regex = Regex(string.toLowerCase())
         for (line in File(inputName).readLines())
-            digit += regex.findAll(line.toLowerCase()).count()
+            digit += howMach(string, line)
         result[string] = digit
     }
     return result
+}
+
+fun howMach(word: String, line: String): Int{
+    var count = 0
+    val newLine = line.toLowerCase().replace(" ", "").replace(word.toLowerCase(), " ")
+
+    for (char in newLine)
+        if (char == ' ') count++
+    return count
 }
 
 /**

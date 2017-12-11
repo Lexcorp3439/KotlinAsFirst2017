@@ -93,7 +93,7 @@ class MatrixImpl<E>(h: Int, w: Int, e: E) : Matrix<E> {
          for (row in 0 until height) {
              for (column in 0 until width) {
                  sb.append(this[row, column])
-                 if (column != height - 1) sb.append(" ")
+                 sb.append(" ") // if (column != height - 1)
              }
              sb.append("\n")
          }

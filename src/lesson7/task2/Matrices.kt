@@ -204,19 +204,7 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
-//    var w = 0
-//
-//    val reversed = matrix
-//    for (i in 0 until matrix.width) {
-//        for (j in matrix.height - 1 downTo 0) {
-//            matrix[i, w] = reversed[i, w]//reversed[i, w] = matrix[j, i]
-//            w++
-//        }
-//        w = 0
-//    }
-    return matrix//reversed
-}
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
 
 /**
  * Сложная
