@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.lang.Math.abs
@@ -47,7 +48,7 @@ fun square(notation: String): Square {
     val column = list.indexOf(notation[0]) + 1
     val digit = notation[1] - '0'
 
-    require (Square(column, digit).inside())
+    require(Square(column, digit).inside())
     return Square(column, digit)
 }
 
@@ -101,7 +102,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>(start)
     val moveNumber = rookMoveNumber(start, end)
 
-    if (moveNumber == 2) list.add(Square(end.column,start.row))
+    if (moveNumber == 2) list.add(Square(end.column, start.row))
     if (moveNumber != 0) list.add(end)
     return list
 }
@@ -170,14 +171,14 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     return list
 }
 
-fun midMove (start: Square, end: Square) : Square {
-            for (c in 1 .. 8)
-        for (r in 1 .. 8) {
+fun midMove(start: Square, end: Square): Square {
+    for (c in 1..8)
+        for (r in 1..8) {
             if (abs(start.column - c) == abs(start.row - r) &&
                     abs(end.column - c) == abs(end.row - r))
                 return Square(c, r)
         }
-    return Square(1,1)
+    return Square(1, 1)
 }
 
 
