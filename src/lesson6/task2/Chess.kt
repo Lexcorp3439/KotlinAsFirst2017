@@ -171,17 +171,15 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
 }
 
 fun midMove (start: Square, end: Square) : Square {
-    val deltaStart = start.column - start.row
-    val deltaEnd = end.column - end.row
-    var min: Int
-    val row = (start.row - start.column + end.column + end.row) / 2
-
-    min = if (abs(deltaStart) < abs(deltaEnd) && deltaStart != 0) deltaStart else deltaEnd
-    min = if (abs(deltaEnd) < abs(deltaStart) && deltaEnd != 0) deltaEnd else deltaStart
-   // val column = end.column + if(row - end.row < 0) row - end.row else  end.row - row
-    val column = min + row
-    return Square(column, row)
+            for (c in 1 .. 8)
+        for (r in 1 .. 8) {
+            if (abs(start.column - c) == abs(start.row - r) &&
+                    abs(end.column - c) == abs(end.row - r))
+                return Square(c, r)
+        }
+    return Square(1,1)
 }
+
 
 /**
  * Средняя
