@@ -19,3 +19,18 @@ fun space(numSpace: Int, numPlace: Int): MutableList<String> {
     }
     return spaceString
 }
+
+
+fun String.cleanRegex():String{
+    val regex1 = Regex("\\.")
+    val regex2 = Regex("\\*")
+    val regex3 = Regex("\\+")
+    val regex4 = Regex("\\?")
+
+    val str = this
+    if (regex1.findAll(str).count() > 0) str.replace(".*", "\\.")
+    if (regex2.findAll(str).count() > 0) str.replace("*", "\\*")
+    if (regex3.findAll(str).count() > 0) str.replace("+", "\\+")
+    if (regex4.findAll(str).count() > 0) str.replace("?", "\\?")
+    return str
+}
